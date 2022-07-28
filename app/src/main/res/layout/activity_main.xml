@@ -74,21 +74,23 @@
             android:src="@drawable/ic_baseline_visibility_24" />
     </RelativeLayout>
     <!-- 是否记住密码按钮-->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="16dp">
+
         <CheckBox
             android:id="@+id/cb_remember_pwd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/primary_text_light"
-            android:layout_marginLeft="8dp"
-            android:text="Remember Password"
-            android:layout_marginBottom="4dp"
             android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"/>
-
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="4dp"
+            android:text="Remember Password"
+            android:textColor="@android:color/primary_text_light" />
+        <!--注册按钮-->
         <TextView
             android:id="@+id/tv_sign_up"
             android:layout_width="wrap_content"
@@ -98,6 +100,17 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="8dp"
             android:text="Sign up"
+            android:textColor="@color/black" />
+        <!--重置密码-->
+        <TextView
+            android:id="@+id/Reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/cb_remember_pwd"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@id/tv_sign_up"
+            android:text="Reset"
             android:textColor="@color/black" />
     </RelativeLayout >
     <!-- 登录按键-->
@@ -117,5 +130,6 @@
             android:layout_marginRight="10dp"
             android:background="@color/purple_700"
             android:text="Login" />
+
     </RelativeLayout >
 </LinearLayout>

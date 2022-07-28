@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -27,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         signUp=findViewById(R.id.tv_sign_up);
         final ImageView ivPwdSwitch=findViewById(R.id.iv_pwd_switch);
@@ -64,6 +64,29 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(MainActivity.this,"已存在账号"+user,Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        TextView ResetPassword=findViewById(R.id.Reset);
+        ResetPassword.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("Range")
+            @Override
+            public void onClick(View view) {
+                SQLiteDatabase userdb=db.getWritableDatabase();
+                //输入的账号密码
+                String pwd=etPwd.getText().toString();
+                String user=username.getText().toString();
+                //select
+                Cursor cursor=userdb.rawQuery("SELECT * FROM USER",null);
+                //数据库里的账号密码
+                String dbUser = null;
+                String dbPwd=null;
+                while(cursor.moveToNext()){
+                    dbUser=cursor.getString(cursor.getColumnIndex("username"));
+                    dbPwd=cursor.getString(cursor.getColumnIndex("password"));
+                }
+                Intent intent=new Intent(MainActivity.this,ResetpasswordActivity.class);
+                startActivity(intent);
             }
         });
 
