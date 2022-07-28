@@ -12,6 +12,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -102,6 +103,38 @@ public class MainActivity extends AppCompatActivity {
                     etPwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD|InputType.TYPE_CLASS_TEXT);
                     etPwd.setTypeface(Typeface.DEFAULT);
                 }
+            }
+        });
+
+        Button login=findViewById(R.id.bt_login);
+        login.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("Range")
+            @Override
+            public void onClick(View view) {
+                SQLiteDatabase userdb=db.getWritableDatabase();
+                //输入的账号密码
+                String pwd=etPwd.getText().toString();
+                String user=username.getText().toString();
+                //select
+                Cursor cursor=userdb.rawQuery("SELECT * FROM USER",null);
+                //数据库里的账号密码
+                String dbUser = null;
+                String dbPwd=null;
+                while(cursor.moveToNext()){
+                    dbUser=cursor.getString(cursor.getColumnIndex("username"));
+                    dbPwd=cursor.getString(cursor.getColumnIndex("password"));
+                }
+
+                //登录业务判断
+                //todo more
+                if(dbUser.equals(user)==true&&dbPwd.equals(pwd)) {
+                    Intent intent = new Intent(MainActivity.this, PhotoshowActivity.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(MainActivity.this,"账号或密码错误",Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
     }
