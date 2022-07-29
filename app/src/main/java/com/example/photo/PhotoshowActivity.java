@@ -3,6 +3,7 @@ package com.example.photo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 
 public class PhotoshowActivity extends AppCompatActivity {
 
