@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="650dp"
+        android:layout_height="620dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/showimage">
@@ -24,11 +24,10 @@
         android:id="@+id/download"
         android:layout_width="83dp"
         android:layout_height="83dp"
-        android:layout_marginLeft="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/showimage"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_baseline_cloud_download_24" />
 
     <ImageView
@@ -46,10 +45,58 @@
         android:id="@+id/favorite"
         android:layout_width="83dp"
         android:layout_height="83dp"
-        android:layout_marginLeft="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/commend"
         app:layout_constraintTop_toBottomOf="@+id/showimage"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/v_heart_primary_x48" />
+
+    <TextView
+        android:id="@+id/downloadtext"
+        android:layout_width="83dp"
+        android:layout_height="28dp"
+        android:text="保存到本地"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/download"
+        android:gravity="center"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/commmendtext"
+        android:layout_width="83dp"
+        android:layout_height="28dp"
+        android:text="点赞"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/downloadtext"
+        app:layout_constraintTop_toBottomOf="@+id/commend"/>
+
+    <TextView
+        android:id="@+id/favoritetext"
+        android:layout_width="83dp"
+        android:layout_height="28dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/commmendtext"
+        app:layout_constraintTop_toBottomOf="@id/favorite"
+        android:text="收藏" />
+
+    <ImageView
+        android:id="@+id/share"
+        android:layout_width="83dp"
+        android:layout_height="83dp"
+        app:layout_constraintLeft_toRightOf="@+id/favorite"
+        app:layout_constraintTop_toBottomOf="@+id/showimage"
+        app:srcCompat="@drawable/v_share_primary_x48" />
+
+    <TextView
+        android:id="@+id/sharetext"
+        android:layout_width="83dp"
+        android:layout_height="28dp"
+        app:layout_constraintLeft_toRightOf="@id/favoritetext"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/share"
+        android:text="分享" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
