@@ -16,4 +16,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:scrollbars="none"
         />
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar"
+        android:layout_width="162dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        tools:layout_editor_absoluteX="104dp"
+        tools:layout_editor_absoluteY="33dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
