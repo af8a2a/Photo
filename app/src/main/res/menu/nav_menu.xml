@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
     <item
         android:id="@+id/nav_readhistory"
         android:icon="@drawable/v_history_black_x24"
@@ -16,4 +17,5 @@
         android:id="@+id/nav_setting"
         android:title="设置管理"
         android:icon="@drawable/v_settings_black_x24"/>
+    </group>
 </menu>
