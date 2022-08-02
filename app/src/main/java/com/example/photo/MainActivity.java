@@ -1,3 +1,7 @@
+/*
+功力不足，暂且将就本地登录
+来日改成服务器保存登录数据罢
+ */
 package com.example.photo;
 
 import androidx.appcompat.app.AppCompatActivity;
