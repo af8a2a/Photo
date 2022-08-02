@@ -1,6 +1,7 @@
 package com.example.photo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ public class PhotoshowActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photoshow);
+
         initData();
         ImageAdapter newsAdapter = new ImageAdapter(PhotoshowActivity.this, R.layout.carditem, newsList);
         RecyclerView lvNewsList = findViewById(R.id.photo_list);

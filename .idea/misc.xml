@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable-v24/v_download_black_x24.xml" value="0.1535" />
+        <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable-v24/v_heart_black_x24.xml" value="0.1535" />
+        <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable-v24/v_history_black_x24.xml" value="0.1535" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable-v24/v_share_primary_x48.xml" value="0.179" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/ic_baseline_cloud_download_24.xml" value="0.179" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/v_heart_primary_x48.xml" value="0.179" />
@@ -13,8 +16,10 @@
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/info.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/item.xml" value="0.264" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/list_item.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/nav_header.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/photoshow.xml" value="0.264" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/resetpassword.xml" value="0.1" />
+        <entry key="..\:/Users/ame/Photo2/app/src/main/res/menu/nav_menu.xml" value="0.2526041666666667" />
       </map>
     </option>
   </component>
