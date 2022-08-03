@@ -12,7 +12,7 @@
 
         <ImageView
             android:id="@+id/preview_image"
-            android:layout_width="match_parent"
+            android:layout_width="128dp"
             android:layout_height="128dp"
             android:scaleType="centerCrop" />
 
@@ -21,7 +21,7 @@
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/preview_image"
+            android:layout_toRightOf="@+id/preview_image"
             android:paddingStart="8dp"
             android:paddingTop="8dp" />
 
@@ -31,7 +31,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/preview_name"
+            android:layout_toRightOf="@+id/preview_image"
             android:paddingStart="8dp"
             android:paddingTop="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/preview_author"
+            android:layout_marginTop="50dp"
+            android:layout_toRightOf="@id/preview_image" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
