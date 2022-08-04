@@ -27,6 +27,7 @@ public class PhotoshowActivity extends AppCompatActivity {
         initData();
         ImageAdapter newsAdapter = new ImageAdapter(PhotoshowActivity.this, R.layout.carditem, newsList);
         RecyclerView lvNewsList = findViewById(R.id.photo_list);
+
         LinearLayoutManager llm=new LinearLayoutManager(this);
         lvNewsList.setLayoutManager(llm);
         lvNewsList.setAdapter(newsAdapter);
