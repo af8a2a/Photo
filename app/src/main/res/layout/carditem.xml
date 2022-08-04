@@ -13,11 +13,15 @@
         android:id="@+id/preview_item"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
+
         <ImageView
             android:id="@+id/preview_image"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:scaleType="centerCrop" />
+            android:layout_width="192dp"
+            android:maxHeight="339dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY" />
+
         <TextView
             android:id="@+id/preview_name"
             style="@style/TextAppearance.AppCompat.Subhead"
@@ -41,7 +45,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/preview_author"
-            android:layout_marginTop="50dp"
             android:layout_toRightOf="@id/preview_image" />
 
     </RelativeLayout>
