@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("Range")
             @Override
             public void onClick(View view) {
+
                 SQLiteDatabase userdb=db.getWritableDatabase();
                 //输入的账号密码
                 String pwd=etPwd.getText().toString();
