@@ -7,6 +7,7 @@ package com.example.photo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,18 +23,22 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+//todo
+//也许应该叫LoginActivity
+//做的差不多再改罢
 
 public class MainActivity extends AppCompatActivity {
     private Boolean bPwdSwitch=false;
     private EditText etPwd;
     private TextView signUp;
     private EditText username;
+    public static Activity mActivityInstance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mActivityInstance=this;
         signUp=findViewById(R.id.tv_sign_up);
         final ImageView ivPwdSwitch=findViewById(R.id.iv_pwd_switch);
         etPwd=findViewById(R.id.et_pwd);
@@ -134,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 //todo more
                 if(dbUser.equals(user)==true&&dbPwd.equals(pwd)) {
                     Intent intent = new Intent(MainActivity.this, PhotoshowActivity.class);
+
                     startActivity(intent);
                 }else{
                     Toast.makeText(MainActivity.this,"账号或密码错误",Toast.LENGTH_SHORT).show();

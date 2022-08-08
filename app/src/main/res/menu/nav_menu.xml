@@ -17,5 +17,10 @@
         android:id="@+id/nav_setting"
         android:title="设置管理"
         android:icon="@drawable/v_settings_black_x24"/>
+        <item
+            android:id="@+id/nav_upload"
+            android:title="上传图片"
+            android:icon="@drawable/v_send_dark_x24"
+            />
     </group>
 </menu>

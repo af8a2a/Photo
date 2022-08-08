@@ -45,13 +45,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(mContext).inflate(resourceId,parent,false);
         ViewHolder holder=new ViewHolder(view);
+        //点item进入详情界面
         holder.imageItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position=holder.getAdapterPosition();
-                ItemImage image=mItemList.get(position);
+                ItemImage image=mItemList.get(position);//得到item,送图片资源id
                 Intent intent=new Intent(view.getContext(),ImageDetail.class);
                 intent.putExtra("image_url",image.getImageId());
+                //跳转
                 mContext.startActivity(intent);
             }
         });

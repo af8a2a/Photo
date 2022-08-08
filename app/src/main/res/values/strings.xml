@@ -10,5 +10,6 @@
     <string name="title_activity_image_detail">ImageDetail</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="pd_send" translatable="false">M2,21L23,12L2,3V10L17,12L2,14V21Z</string>
 
 </resources>
