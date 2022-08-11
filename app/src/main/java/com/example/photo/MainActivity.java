@@ -4,6 +4,7 @@
  */
 package com.example.photo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -23,6 +24,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.photo.util.DbLogin;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 //todo
 //也许应该叫LoginActivity
 //做的差不多再改罢
@@ -32,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText etPwd;
     private TextView signUp;
     private EditText username;
+    private boolean isLoginSuccess=false;
     public static Activity mActivityInstance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,63 +57,14 @@ public class MainActivity extends AppCompatActivity {
         final ImageView ivPwdSwitch=findViewById(R.id.iv_pwd_switch);
         etPwd=findViewById(R.id.et_pwd);
         username=findViewById(R.id.et_account);
-        //数据库创建
-        PhotoDB db=new PhotoDB(this,"USER.db",null,1);
-
         signUp.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("Range")
             @Override
             public void onClick(View view) {
-                SQLiteDatabase userdb=db.getWritableDatabase();
-                //输入的账号密码
                 String pwd=etPwd.getText().toString();
                 String user=username.getText().toString();
-                //select
-                Cursor cursor=userdb.rawQuery("SELECT * FROM USER",null);
-                //数据库里的账号密码
-                String dbUser = null;
-                String dbPwd=null;
-                while(cursor.moveToNext()){
-                    dbUser=cursor.getString(cursor.getColumnIndex("username"));
-                    dbPwd=cursor.getString(cursor.getColumnIndex("password"));
 
-                }
-                //数据库里有号就提示不用注册，没号就注册
-                if(dbUser.equals(user)!=true){
-                    ContentValues val=new ContentValues();
-                    val.put("username",user);
-                    val.put("password",pwd);
-                    userdb.insert("USER",null,val);
-                    Toast.makeText(MainActivity.this,"注册账号"+user,Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(MainActivity.this,"已存在账号"+user,Toast.LENGTH_SHORT).show();
-                }
             }
         });
-
-        TextView ResetPassword=findViewById(R.id.Reset);
-        ResetPassword.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("Range")
-            @Override
-            public void onClick(View view) {
-                SQLiteDatabase userdb=db.getWritableDatabase();
-                //输入的账号密码
-                String pwd=etPwd.getText().toString();
-                String user=username.getText().toString();
-                //select
-                Cursor cursor=userdb.rawQuery("SELECT * FROM USER",null);
-                //数据库里的账号密码
-                String dbUser = null;
-                String dbPwd=null;
-                while(cursor.moveToNext()){
-                    dbUser=cursor.getString(cursor.getColumnIndex("username"));
-                    dbPwd=cursor.getString(cursor.getColumnIndex("password"));
-                }
-                Intent intent=new Intent(MainActivity.this,ResetpasswordActivity.class);
-                startActivity(intent);
-            }
-        });
-
         ivPwdSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,35 +82,29 @@ public class MainActivity extends AppCompatActivity {
 
         Button login=findViewById(R.id.bt_login);
         login.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("Range")
             @Override
             public void onClick(View view) {
 
-                SQLiteDatabase userdb=db.getWritableDatabase();
-                //输入的账号密码
                 String pwd=etPwd.getText().toString();
                 String user=username.getText().toString();
-                //select
-                Cursor cursor=userdb.rawQuery("SELECT * FROM USER",null);
-                //数据库里的账号密码
-                String dbUser = null;
-                String dbPwd=null;
-                while(cursor.moveToNext()){
-                    dbUser=cursor.getString(cursor.getColumnIndex("username"));
-                    dbPwd=cursor.getString(cursor.getColumnIndex("password"));
-                }
+                DbLogin.login(user, pwd, new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        e.printStackTrace();
+                    }
 
-                //登录业务判断
-                //todo more
-                if(dbUser.equals(user)==true&&dbPwd.equals(pwd)) {
-                    Intent intent = new Intent(MainActivity.this, PhotoshowActivity.class);
-
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                        String res=response.body().string();
+                        if(response.isSuccessful()&&res.equals("true")){
+                            isLoginSuccess=true;
+                        }
+                    }
+                });
+                if(isLoginSuccess){
+                    Intent intent=new Intent(MainActivity.this,PhotoshowActivity.class);
                     startActivity(intent);
-                }else{
-                    Toast.makeText(MainActivity.this,"账号或密码错误",Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
     }

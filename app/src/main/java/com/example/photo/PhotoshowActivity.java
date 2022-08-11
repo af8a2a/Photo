@@ -19,6 +19,8 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
+
 public class PhotoshowActivity extends AppCompatActivity {
     private String[] titles = null;
     private String[] authors = null;
@@ -35,7 +37,6 @@ public class PhotoshowActivity extends AppCompatActivity {
         initData();
         ImageAdapter newsAdapter = new ImageAdapter(PhotoshowActivity.this, R.layout.carditem, newsList);
         RecyclerView lvNewsList = findViewById(R.id.photo_list);
-
         LinearLayoutManager llm=new LinearLayoutManager(this);
         lvNewsList.setLayoutManager(llm);
         lvNewsList.setAdapter(newsAdapter);
