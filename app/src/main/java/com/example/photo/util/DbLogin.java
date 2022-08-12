@@ -48,4 +48,15 @@ public class DbLogin{
         client.newCall(request).enqueue(callback);
     }
 
+    public static void reset(String username,String password,Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        //JSONObject json=new JSONObject();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("username",username)
+                .add("password",password).build();
+        Request request=new Request.Builder().url("http://39.108.13.67:8848/user/reset").post(requestBody).build();
+        client.newCall(request).enqueue(callback);
+
+    }
+
 }

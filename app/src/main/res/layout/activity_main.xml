@@ -107,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/cb_remember_pwd"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginRight="16dp"
             android:layout_toLeftOf="@id/tv_sign_up"
             android:text="Reset"

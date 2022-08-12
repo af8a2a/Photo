@@ -45,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText etPwd;
     private TextView signUp;
     private EditText username;
+    private TextView reset;
     private boolean isLoginSuccess=false;
+    private boolean isRegisterSucceess=false;
     public static Activity mActivityInstance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,30 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String pwd=etPwd.getText().toString();
                 String user=username.getText().toString();
+                DbLogin.register(user, pwd, new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        e.printStackTrace();
+                    }
 
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                        String res=response.body().string();
+                        if(response.isSuccessful()&&res.equals("true")){
+                            isRegisterSucceess=true;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(isRegisterSucceess)
+                                    Toast.makeText(MainActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+                                    else
+                                        Toast.makeText(MainActivity.this,"已存在该用户名！",Toast.LENGTH_SHORT).show();
+                                    isRegisterSucceess=false;
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
         ivPwdSwitch.setOnClickListener(new View.OnClickListener() {
@@ -98,13 +123,31 @@ public class MainActivity extends AppCompatActivity {
                         String res=response.body().string();
                         if(response.isSuccessful()&&res.equals("true")){
                             isLoginSuccess=true;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(isLoginSuccess){
+                                        if(isLoginSuccess){
+                                            Intent intent=new Intent(MainActivity.this,PhotoshowActivity.class);
+                                            startActivity(intent);
+                                        }
+                                        isLoginSuccess=false;
+                                    }
+                                }
+                            });
                         }
                     }
                 });
-                if(isLoginSuccess){
-                    Intent intent=new Intent(MainActivity.this,PhotoshowActivity.class);
-                    startActivity(intent);
-                }
+            }
+        });
+
+        reset=findViewById(R.id.Reset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,ResetpasswordActivity.class);
+                intent.putExtra("username",username.getText().toString());
+                startActivity(intent);
             }
         });
     }
