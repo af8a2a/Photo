@@ -3,10 +3,13 @@ package com.example.photo;
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,9 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
 import com.example.photo.Entity.ImageJson;
 import com.example.photo.Entity.ItemImage;
 import com.example.photo.util.ImageServerUtil;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -36,6 +41,9 @@ public class PhotoshowActivity extends AppCompatActivity {
     private RecyclerView lvNewsList;
     private ImageAdapter newsAdapter;
     private SwipeRefreshLayout refreshLayout;
+    //private ShapeableImageView icon;
+    private String username;
+    private NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +52,7 @@ public class PhotoshowActivity extends AppCompatActivity {
         //不再返回登录界面
         MainActivity.mActivityInstance.finish();
 
+        username=getIntent().getStringExtra("username");
         //initData();
         loadData_server();
         if(newsList.isEmpty()) System.out.println(1);
@@ -52,6 +61,7 @@ public class PhotoshowActivity extends AppCompatActivity {
         LinearLayoutManager llm=new LinearLayoutManager(this);
         lvNewsList.setLayoutManager(llm);
         lvNewsList.setAdapter(newsAdapter);
+        initNav();
         refreshLayout=findViewById(R.id.refresh);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -59,11 +69,9 @@ public class PhotoshowActivity extends AppCompatActivity {
                 refreshList();
             }
         });
-
     }
     private void loadData_server(){
         Gson gson=new Gson();
-
         ImageServerUtil.getImage(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -77,10 +85,12 @@ public class PhotoshowActivity extends AppCompatActivity {
                     List<ImageJson> imageList = gson.fromJson(res, new TypeToken<List<ImageJson>>() {}.getType());
                     for (int i = 0; i < imageList.size(); i++) {
                         ItemImage news = new ItemImage();
-                        news.setUrl(imageList.get(i).getPicUrl());
-                        news.setImageName(imageList.get(i).getTitle());
-                        news.setAuthor(imageList.get(i).getAuthor());
-                        newsList.add(news);
+                        if(!newsList.contains(imageList.get(i).getPid())) {
+                            news.setUrl(imageList.get(i).getPicUrl());
+                            news.setImageName(imageList.get(i).getTitle());
+                            news.setAuthor(imageList.get(i).getAuthor());
+                            newsList.add(news);
+                        }
                     }
                 }else{
                     Log.d(TAG, "onResponse: error");
@@ -88,6 +98,8 @@ public class PhotoshowActivity extends AppCompatActivity {
             }
         });
     }
+    /*
+    @Deprecated
     private void initData() {;
         int length;
         titles = getResources().getStringArray(R.array.titles);
@@ -102,15 +114,21 @@ public class PhotoshowActivity extends AppCompatActivity {
             news.setImageId(images.getResourceId(i, 0));
             newsList.add(news);
         }
-    }
+    }*/
     private void initNav(){
-        NavigationView navigationView=findViewById(R.id.nav_view);
+        navigationView=findViewById(R.id.nav_view);
+        View headView=navigationView.getHeaderView(0);
+        ShapeableImageView icon = headView.findViewById(R.id.nav_icon_image);
+        Glide.with(getApplicationContext()).load("https://pic.img.ski/1660445688.png").placeholder(R.drawable.v_history_black_x24).into(icon);
+        TextView user=headView.findViewById(R.id.nav_user_text);
+        user.setText("user:"+username);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.nav_download:{
-
+                    //todo
                     }
                 }
                 return false;
@@ -129,7 +147,9 @@ public class PhotoshowActivity extends AppCompatActivity {
                runOnUiThread(new Runnable() {
                    @Override
                    public void run() {
-                       loadData_server();
+                       //todo
+                       //loadData_server();
+
                        newsAdapter.notifyDataSetChanged();
                        refreshLayout.setRefreshing(false);
                    }

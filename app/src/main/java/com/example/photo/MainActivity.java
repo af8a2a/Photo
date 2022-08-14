@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                                     if(isLoginSuccess){
                                         if(isLoginSuccess){
                                             Intent intent=new Intent(MainActivity.this,PhotoshowActivity.class);
+                                            intent.putExtra("username",username.getText().toString());
                                             startActivity(intent);
                                         }
                                         isLoginSuccess=false;
