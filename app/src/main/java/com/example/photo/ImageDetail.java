@@ -2,6 +2,7 @@ package com.example.photo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,8 +14,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.github.piasy.biv.BigImageViewer;
+import com.github.piasy.biv.loader.glide.GlideImageLoader;
+import com.github.piasy.biv.view.BigImageView;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 import okhttp3.Callback;
@@ -31,15 +36,13 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BigImageViewer.initialize(GlideImageLoader.with(getApplicationContext()));
         setContentView(R.layout.activity_image_detail);
-        //显示图片
-        SubsamplingScaleImageView imageView=findViewById(R.id.image);
-        //ImageView imageView=findViewById(R.id.image);
-        String url=getIntent().getStringExtra("image_url");
-        //String url="https://5726g157x1.oicp.vip/Pictures/5.png";
-        imageView.setImage(ImageSource.uri(url));
-        //Glide.with(this).load(url).placeholder(R.mipmap.ic_launcher).into(imageView);
 
+        //显示图片
+        BigImageView imageView=(BigImageView)findViewById(R.id.image);
+        String url=getIntent().getStringExtra("image_url");
+        imageView.showImage(Uri.parse(url));
         //设置点击
         linearLayout=findViewById(R.id.showimage);
         btn_download=findViewById(R.id.download);

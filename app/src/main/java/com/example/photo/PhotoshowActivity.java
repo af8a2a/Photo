@@ -2,19 +2,20 @@ package com.example.photo;
 
 import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.photo.Entity.ImageJson;
 import com.example.photo.Entity.ItemImage;
-import com.example.photo.Entity.Token;
 import com.example.photo.util.ImageServerUtil;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -32,7 +33,9 @@ public class PhotoshowActivity extends AppCompatActivity {
     private String[] titles = null;
     private String[] authors = null;
     private List<ItemImage> newsList = new ArrayList<>();
-
+    private RecyclerView lvNewsList;
+    private ImageAdapter newsAdapter;
+    private SwipeRefreshLayout refreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +47,18 @@ public class PhotoshowActivity extends AppCompatActivity {
         //initData();
         loadData_server();
         if(newsList.isEmpty()) System.out.println(1);
-        RecyclerView lvNewsList = findViewById(R.id.photo_list);
-        ImageAdapter newsAdapter = new ImageAdapter(PhotoshowActivity.this, R.layout.carditem, newsList);
+        lvNewsList = findViewById(R.id.photo_list);
+        newsAdapter = new ImageAdapter(PhotoshowActivity.this, R.layout.carditem, newsList);
         LinearLayoutManager llm=new LinearLayoutManager(this);
         lvNewsList.setLayoutManager(llm);
         lvNewsList.setAdapter(newsAdapter);
-
+        refreshLayout=findViewById(R.id.refresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshList();
+            }
+        });
 
     }
     private void loadData_server(){
@@ -108,5 +117,25 @@ public class PhotoshowActivity extends AppCompatActivity {
             }
         });
     }
+    private void refreshList(){
+       new Thread(new Runnable() {
+           @Override
+           public void run() {
+               try {
+                   Thread.sleep(2000);
 
+               }catch(InterruptedException e){
+               }
+               runOnUiThread(new Runnable() {
+                   @Override
+                   public void run() {
+                       loadData_server();
+                       newsAdapter.notifyDataSetChanged();
+                       refreshLayout.setRefreshing(false);
+                   }
+               });
+           }
+       }).start();
+
+    }
 }
