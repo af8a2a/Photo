@@ -1,4 +1,4 @@
-package com.example.photo;
+package com.example.photo.util;
 
 import android.content.Context;
 import android.database.DatabaseErrorHandler;

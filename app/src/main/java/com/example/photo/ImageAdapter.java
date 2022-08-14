@@ -3,16 +3,18 @@ package com.example.photo;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.Layout;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.example.photo.Entity.ItemImage;
 
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
     public ImageAdapter(Context mContext, int resourceId,List<ItemImage> mItemList) {
         this.mItemList = mItemList;
         this.mContext = mContext;
-        this.resourceId = resourceId;
+        this.resourceId = resourceId;//layout_view
     }
 
     @NonNull
@@ -52,7 +54,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
                 int position=holder.getAdapterPosition();
                 ItemImage image=mItemList.get(position);//得到item,送图片资源id
                 Intent intent=new Intent(view.getContext(),ImageDetail.class);
-                intent.putExtra("image_url",image.getImageId());
+                intent.putExtra("image_url",image.getUrl());
                 //跳转
                 mContext.startActivity(intent);
             }
@@ -63,7 +65,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ItemImage item=mItemList.get(position);
-        holder.Image.setImageResource(item.getImageId());
+        //holder.Image.setImageResource(item.getImageId());
+        //holder.Image.setImageURI(Uri.parse(item.getUrl()));
+        Glide.with(mContext).load(item.getUrl()).into(holder.Image);
         holder.Author.setText(item.getAuthor());
         holder.Name.setText(item.getImageName());
     }

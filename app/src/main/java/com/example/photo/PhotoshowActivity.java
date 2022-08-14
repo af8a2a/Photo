@@ -1,25 +1,32 @@
 package com.example.photo;
 
+import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
+import com.example.photo.Entity.ImageJson;
+import com.example.photo.Entity.ItemImage;
+import com.example.photo.Entity.Token;
+import com.example.photo.util.ImageServerUtil;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.Bmob;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class PhotoshowActivity extends AppCompatActivity {
     private String[] titles = null;
@@ -34,16 +41,45 @@ public class PhotoshowActivity extends AppCompatActivity {
         //不再返回登录界面
         MainActivity.mActivityInstance.finish();
 
-        initData();
-        ImageAdapter newsAdapter = new ImageAdapter(PhotoshowActivity.this, R.layout.carditem, newsList);
+        //initData();
+        loadData_server();
+        if(newsList.isEmpty()) System.out.println(1);
         RecyclerView lvNewsList = findViewById(R.id.photo_list);
+        ImageAdapter newsAdapter = new ImageAdapter(PhotoshowActivity.this, R.layout.carditem, newsList);
         LinearLayoutManager llm=new LinearLayoutManager(this);
         lvNewsList.setLayoutManager(llm);
         lvNewsList.setAdapter(newsAdapter);
 
 
     }
-    private void initData() {
+    private void loadData_server(){
+        Gson gson=new Gson();
+
+        ImageServerUtil.getImage(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()) {
+                    String res = response.body().string();
+                    List<ImageJson> imageList = gson.fromJson(res, new TypeToken<List<ImageJson>>() {}.getType());
+                    for (int i = 0; i < imageList.size(); i++) {
+                        ItemImage news = new ItemImage();
+                        news.setUrl(imageList.get(i).getPicUrl());
+                        news.setImageName(imageList.get(i).getTitle());
+                        news.setAuthor(imageList.get(i).getAuthor());
+                        newsList.add(news);
+                    }
+                }else{
+                    Log.d(TAG, "onResponse: error");
+                }
+            }
+        });
+    }
+    private void initData() {;
         int length;
         titles = getResources().getStringArray(R.array.titles);
         authors = getResources().getStringArray(R.array.authors);

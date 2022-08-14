@@ -17,6 +17,7 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -34,9 +35,9 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
         //显示图片
         SubsamplingScaleImageView imageView=findViewById(R.id.image);
         //ImageView imageView=findViewById(R.id.image);
-        int imageResourceId=getIntent().getIntExtra("image_url",0);
+        String url=getIntent().getStringExtra("image_url");
         //String url="https://5726g157x1.oicp.vip/Pictures/5.png";
-        imageView.setImage(ImageSource.resource(imageResourceId));
+        imageView.setImage(ImageSource.uri(url));
         //Glide.with(this).load(url).placeholder(R.mipmap.ic_launcher).into(imageView);
 
         //设置点击

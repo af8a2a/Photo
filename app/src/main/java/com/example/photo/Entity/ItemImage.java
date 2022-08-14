@@ -1,18 +1,27 @@
-package com.example.photo;
+package com.example.photo.Entity;
 
 public class ItemImage {
     private String ImageName;
     private String Author;
     private int imageId;
-
+    private String url;
     public ItemImage() {
 
     }
 
-    public ItemImage(String imageName, String author, int imageId) {
+    public ItemImage(String imageName, String author, int imageId,String url) {
         ImageName = imageName;
         Author = author;
         this.imageId = imageId;
+        this.url=url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getImageName() {
