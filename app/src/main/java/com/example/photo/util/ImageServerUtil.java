@@ -16,6 +16,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ImageServerUtil {
+    @Deprecated
     public static void getToken(Callback callback){
         Gson gson=new Gson();
         OkHttpClient okHttpClient=new OkHttpClient.Builder().build();

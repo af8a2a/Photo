@@ -33,6 +33,7 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
     private ImageView btn_commend;
     private ImageView btn_comment;
     private ImageView btn_favorite;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

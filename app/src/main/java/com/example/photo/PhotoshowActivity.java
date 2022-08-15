@@ -1,17 +1,18 @@
 package com.example.photo;
 
-import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
-import android.content.res.TypedArray;
+import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,8 @@ import com.bumptech.glide.Glide;
 import com.example.photo.Entity.ImageJson;
 import com.example.photo.Entity.ItemImage;
 import com.example.photo.util.ImageServerUtil;
+import com.example.photo.util.ImageUploader;
+import com.github.piasy.biv.loader.ImageLoader;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -35,20 +38,45 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class PhotoshowActivity extends AppCompatActivity {
-    private String[] titles = null;
-    private String[] authors = null;
     private List<ItemImage> newsList = new ArrayList<>();
     private RecyclerView lvNewsList;
     private ImageAdapter newsAdapter;
     private SwipeRefreshLayout refreshLayout;
-    //private ShapeableImageView icon;
     private String username;
     private NavigationView navigationView;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) {
+            // 从相册返回的数据
+            //Log.e(this.getClass().getName(), "Result:" + data.toString());
+            if (data != null) {
+                // 得到图片的全路径
+                Uri uri = data.getData();
+                String[] filePathColumns = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getContentResolver().query(
+                        uri,
+                        filePathColumns,
+                        null,
+                        null,
+                        null);
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumns[0]);
+// 获取图片的存储路径
+                String filePath = cursor.getString(columnIndex);
+                ImageUploader.upload(filePath);
+// 获取数据完毕后, 关闭游标
+                cursor.close();
+            }
+        }
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photoshow);
-
         //不再返回登录界面
         MainActivity.mActivityInstance.finish();
 
@@ -69,6 +97,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                 refreshList();
             }
         });
+
     }
     private void loadData_server(){
         Gson gson=new Gson();
@@ -93,7 +122,6 @@ public class PhotoshowActivity extends AppCompatActivity {
                         }
                     }
                 }else{
-                    Log.d(TAG, "onResponse: error");
                 }
             }
         });
@@ -129,6 +157,12 @@ public class PhotoshowActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.nav_download:{
                     //todo
+                    }
+                    case R.id.nav_upload:{
+                        Intent intent = new Intent(Intent.ACTION_PICK, null);
+                        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                        startActivityForResult(intent, 2);
+
                     }
                 }
                 return false;

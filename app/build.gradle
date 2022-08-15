@@ -31,6 +31,10 @@ android {
 }
 
 dependencies {
+    implementation 'io.github.lucksiege:pictureselector:v3.10.6'
+    implementation 'io.github.lucksiege:compress:v3.10.6'
+    implementation 'io.github.lucksiege:ucrop:v3.10.6'
+
     implementation 'com.github.piasy:BigImageViewer:1.8.1'
     implementation 'com.github.piasy:GlideImageLoader:1.8.1'
 
