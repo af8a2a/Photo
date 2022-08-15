@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -19,11 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
-import com.example.photo.Entity.ImageJson;
+import com.example.photo.Entity.JsonUtil.ImageJson;
 import com.example.photo.Entity.ItemImage;
 import com.example.photo.util.ImageServerUtil;
 import com.example.photo.util.ImageUploader;
-import com.github.piasy.biv.loader.ImageLoader;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -48,7 +46,7 @@ public class PhotoshowActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2) {
+        if (requestCode == 3) {
             // 从相册返回的数据
             //Log.e(this.getClass().getName(), "Result:" + data.toString());
             if (data != null) {
@@ -64,6 +62,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumns[0]);
 // 获取图片的存储路径
+
                 String filePath = cursor.getString(columnIndex);
                 ImageUploader.upload(filePath);
 // 获取数据完毕后, 关闭游标
@@ -147,7 +146,7 @@ public class PhotoshowActivity extends AppCompatActivity {
         navigationView=findViewById(R.id.nav_view);
         View headView=navigationView.getHeaderView(0);
         ShapeableImageView icon = headView.findViewById(R.id.nav_icon_image);
-        Glide.with(getApplicationContext()).load("https://pic.img.ski/1660445688.png").placeholder(R.drawable.v_history_black_x24).into(icon);
+        Glide.with(getApplicationContext()).load("https://pic.img.ski/1660520531.png").placeholder(R.drawable.v_history_black_x24).into(icon);
         TextView user=headView.findViewById(R.id.nav_user_text);
         user.setText("user:"+username);
 
@@ -157,12 +156,26 @@ public class PhotoshowActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.nav_download:{
                     //todo
+                        break;
+                    }
+                    case R.id.nav_favorite:{
+                        //todo
+                        break;
+                    }
+                    case R.id.nav_setting:{
+                        //todo
+                        break;
+                    }
+                    case R.id.nav_readhistory:{
+                        //todo
+                        break;
+
                     }
                     case R.id.nav_upload:{
                         Intent intent = new Intent(Intent.ACTION_PICK, null);
                         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                        startActivityForResult(intent, 2);
-
+                        startActivityForResult(intent, 3);
+                        break;
                     }
                 }
                 return false;

@@ -28,10 +28,10 @@ android {
     buildFeatures {
         viewBinding true
     }
+
 }
 
 dependencies {
-    implementation 'io.github.lucksiege:pictureselector:v3.10.6'
     implementation 'io.github.lucksiege:compress:v3.10.6'
     implementation 'io.github.lucksiege:ucrop:v3.10.6'
 
