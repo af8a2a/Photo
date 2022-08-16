@@ -2,8 +2,11 @@ package com.example.photo;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.FileUtils;
+import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -138,13 +141,32 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
         btn_share.setOnClickListener(this);
     }
 
-    @SuppressLint("MissingPermission")
+    private void saveImage(String url){
+        try {
+            File file=Glide.with(getApplicationContext()).download(url).submit().get();
+            String imagePath = file.getAbsolutePath();
+            String imageName=file.getName();
+            MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), imagePath, imageName, null);
+            getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + imagePath)));
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.download: {
                 //todo
-
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        saveImage(url);
+                    }
+                }).start();
 
                  Toast.makeText(this,"下载!",Toast.LENGTH_SHORT).show();
                 break;
