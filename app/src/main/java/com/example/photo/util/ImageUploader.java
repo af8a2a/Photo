@@ -62,21 +62,15 @@ public class ImageUploader {
                 if(response.isSuccessful()) {
                     String res = response.body().string();
                     Gson gson=new Gson();
-                    System.out.println(110);
                     ImageServerUploadBackJson imageList = gson.fromJson(res,ImageServerUploadBackJson.class);
                     System.out.println(imageList.getData().getLinks().getUrl());
                     json.setPic_url(imageList.getData().getLinks().getUrl());
-                    ImageServerUtil.addImage(new Callback() {
+                    new Thread(new Runnable() {
                         @Override
-                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
+                        public void run() {
+                            ImageServerUtil.addImage(json);
                         }
-
-                        @Override
-                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-
-                        }
-                    },json);
+                    }).start();
                 }
             }
         });

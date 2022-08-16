@@ -36,7 +36,7 @@ public class ImageServerUtil {
         Request request=new Request.Builder().url("http://39.108.13.67:8844/img/get").get().build();
         client.newCall(request).enqueue(callback);
     }
-    public static void addImage(Callback callback, ImageJson imageJson){
+    public static void addImage(ImageJson imageJson){
         OkHttpClient client=new OkHttpClient();
         //JSONObject json=new JSONObject();
         RequestBody requestBody=new FormBody.Builder()
@@ -46,6 +46,10 @@ public class ImageServerUtil {
                 .add("pic_url",imageJson.getPic_url())
                 .build();
         Request request=new Request.Builder().url("http://39.108.13.67:8844/img/add").post(requestBody).build();
-        client.newCall(request).enqueue(callback);
+        try {
+            client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

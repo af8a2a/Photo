@@ -64,7 +64,8 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
     private ImageView btn_favorite;
     private BigImageView imageView;
     private String url;
-
+    private boolean favoriteState=false;
+    private boolean commendState=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,6 +156,7 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
         }catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        Toast.makeText(this,"下载完成!",Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onClick(View view) {
@@ -167,18 +169,29 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
                         saveImage(url);
                     }
                 }).start();
-
-                 Toast.makeText(this,"下载!",Toast.LENGTH_SHORT).show();
+                 Toast.makeText(this,"开始下载!",Toast.LENGTH_SHORT).show();
                 break;
             }
             case R.id.favorite:{
                 //todo
+                favoriteState=!favoriteState;
+                if(favoriteState==true){
+                    btn_favorite.setImageResource(R.drawable.v_heart_primary_x48);
+                }else{
+                    btn_favorite.setImageResource(R.drawable.v_heart_outline_primary_x48);
+                }
                 Toast.makeText(this,"收藏!",Toast.LENGTH_SHORT).show();
                 break;
             }
             case R.id.commend:{
                 // TODO
-                Toast.makeText(this,"点赞!",Toast.LENGTH_SHORT).show();
+                commendState=true;
+                if(commendState==true){
+                    Toast.makeText(this,"点赞!",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this,"点赞!",Toast.LENGTH_SHORT).show();;
+                }
+
                 break;
             }
             case R.id.comment:{
