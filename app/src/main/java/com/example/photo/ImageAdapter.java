@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.photo.Entity.ItemImage;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
     private List<ItemImage> mItemList;
     private Context mContext;
     private int resourceId;
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         View imageItemView;//test
         ImageView Image;
@@ -64,10 +67,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        RequestOptions options=new RequestOptions().skipMemoryCache(false).diskCacheStrategy(DiskCacheStrategy.ALL);
         ItemImage item=mItemList.get(position);
         //holder.Image.setImageResource(item.getImageId());
         //holder.Image.setImageURI(Uri.parse(item.getUrl()));
-        Glide.with(mContext).load(item.getUrl()).into(holder.Image);
+        Glide.with(mContext).load(item.getUrl()).apply(options).into(holder.Image);
         holder.Author.setText(item.getAuthor());
         holder.Name.setText(item.getImageName());
     }

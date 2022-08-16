@@ -79,6 +79,7 @@ public class UploadActivity extends AppCompatActivity {
                 imageJson.setStar(0);
                 imageJson.setTitle(Title.getText().toString());
                 ImageUploader.upload(filePath,imageJson);
+                finish();
             }
         });
     }

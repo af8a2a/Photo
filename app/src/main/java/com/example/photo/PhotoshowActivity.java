@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.photo.Entity.JsonUtil.ImageJson;
 import com.example.photo.Entity.ItemImage;
 import com.example.photo.util.ImageServerUtil;
@@ -67,7 +69,7 @@ public class PhotoshowActivity extends AppCompatActivity {
         setContentView(R.layout.photoshow);
         //不再返回登录界面
         MainActivity.mActivityInstance.finish();
-
+        RequestOptions options=new RequestOptions().skipMemoryCache(false).diskCacheStrategy(DiskCacheStrategy.ALL);
         username=getIntent().getStringExtra("username");
         //initData();
         loadData_server();
