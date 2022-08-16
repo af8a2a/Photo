@@ -5,8 +5,17 @@ public class ItemImage {
     private String ImageName;
     private String Author;
     private String url;
+    private int star;
     public ItemImage() {
 
+    }
+
+    public int getStar() {
+        return star;
+    }
+
+    public void setStar(int star) {
+        this.star = star;
     }
 
     public int getPid() {
@@ -17,11 +26,12 @@ public class ItemImage {
         this.pid = pid;
     }
 
-    public ItemImage(String imageName, String author, String url, int pid) {
+    public ItemImage(String imageName, String author, String url, int pid,int star) {
         ImageName = imageName;
         Author = author;
         this.url=url;
         this.pid=pid;
+        this.star=star;
     }
     public boolean equals(Object obj){
         if(obj==null){

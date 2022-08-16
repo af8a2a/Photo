@@ -1,6 +1,7 @@
 package com.example.photo;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,10 +9,13 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,33 +46,18 @@ public class PhotoshowActivity extends AppCompatActivity {
     private SwipeRefreshLayout refreshLayout;
     private String username;
     private NavigationView navigationView;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 3) {
-            // 从相册返回的数据
-            //Log.e(this.getClass().getName(), "Result:" + data.toString());
-            if (data != null) {
-                // 得到图片的全路径
-                Uri uri = data.getData();
-                String[] filePathColumns = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getContentResolver().query(
-                        uri,
-                        filePathColumns,
-                        null,
-                        null,
-                        null);
-                cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(filePathColumns[0]);
-// 获取图片的存储路径
-
-                String filePath = cursor.getString(columnIndex);
-                ImageUploader.upload(filePath);
-// 获取数据完毕后, 关闭游标
-                cursor.close();
+    private void showInputDialog() {
+        /*@setView 装入一个EditView
+         */
+        final EditText editText = new EditText(this  );
+        AlertDialog.Builder inputDialog = new AlertDialog.Builder(this);
+        inputDialog.setTitle("我是一个输入Dialog").setView(editText);
+        inputDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(),editText.getText().toString(),Toast.LENGTH_SHORT).show();
             }
-        }
+        }).show();
     }
 
 
@@ -82,7 +71,6 @@ public class PhotoshowActivity extends AppCompatActivity {
         username=getIntent().getStringExtra("username");
         //initData();
         loadData_server();
-        if(newsList.isEmpty()) System.out.println(1);
         lvNewsList = findViewById(R.id.photo_list);
         newsAdapter = new ImageAdapter(PhotoshowActivity.this, R.layout.carditem, newsList);
         LinearLayoutManager llm=new LinearLayoutManager(this);
@@ -114,7 +102,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                     for (int i = 0; i < imageList.size(); i++) {
                         ItemImage news = new ItemImage();
                         if(!newsList.contains(imageList.get(i).getPid())) {
-                            news.setUrl(imageList.get(i).getPicUrl());
+                            news.setUrl(imageList.get(i).getPic_url());
                             news.setImageName(imageList.get(i).getTitle());
                             news.setAuthor(imageList.get(i).getAuthor());
                             newsList.add(news);
@@ -172,9 +160,12 @@ public class PhotoshowActivity extends AppCompatActivity {
 
                     }
                     case R.id.nav_upload:{
-                        Intent intent = new Intent(Intent.ACTION_PICK, null);
+                        Intent intent=new Intent(getApplicationContext(),UploadActivity.class);
+                        intent.putExtra("username",username);
+                        startActivity(intent);
+                        /*Intent intent = new Intent(Intent.ACTION_PICK, null);
                         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                        startActivityForResult(intent, 3);
+                        startActivityForResult(intent, 3);*/
                         break;
                     }
                 }

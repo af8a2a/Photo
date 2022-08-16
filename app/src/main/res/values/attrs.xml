@@ -2,5 +2,6 @@
     <declare-styleable name="FullscreenAttrs">
         <attr name="fullscreenBackgroundColor" format="color" />
         <attr name="fullscreenTextColor" format="color" />
+        <attr name="drawableColorPrimary" format="color" />
     </declare-styleable>
 </resources>

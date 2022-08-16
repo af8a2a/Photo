@@ -5,12 +5,30 @@ public class ImageJson {
     private String author;
     private String title;
     private String pic_url;
+    private int star=0;
 
-    public ImageJson(Integer pid, String author, String title, String picUrl) {
+    public ImageJson(Integer pid, String author, String title, String pic_url, int star) {
         this.pid = pid;
         this.author = author;
         this.title = title;
-        pic_url = picUrl;
+        this.pic_url = pic_url;
+        this.star = star;
+    }
+
+    public String getPic_url() {
+        return pic_url;
+    }
+
+    public void setPic_url(String pic_url) {
+        this.pic_url = pic_url;
+    }
+
+    public int getStar() {
+        return star;
+    }
+
+    public void setStar(int star) {
+        this.star = star;
     }
 
     public ImageJson() {
@@ -40,11 +58,4 @@ public class ImageJson {
         this.title = title;
     }
 
-    public String getPicUrl() {
-        return pic_url;
-    }
-
-    public void setPicUrl(String picUrl) {
-        pic_url = picUrl;
-    }
 }

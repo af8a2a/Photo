@@ -2,6 +2,7 @@ package com.example.photo.util;
 
 import androidx.annotation.NonNull;
 
+import com.example.photo.Entity.JsonUtil.ImageJson;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -33,6 +34,18 @@ public class ImageServerUtil {
         //JSONObject json=new JSONObject();
         //RequestBody requestBody=new FormBody.Builder().build();
         Request request=new Request.Builder().url("http://39.108.13.67:8844/img/get").get().build();
+        client.newCall(request).enqueue(callback);
+    }
+    public static void addImage(Callback callback, ImageJson imageJson){
+        OkHttpClient client=new OkHttpClient();
+        //JSONObject json=new JSONObject();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("author",imageJson.getAuthor())
+                .add("title",imageJson.getTitle())
+                .add("star","0")
+                .add("pic_url",imageJson.getPic_url())
+                .build();
+        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/add").post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
 }

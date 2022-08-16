@@ -13,6 +13,7 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -31,7 +32,7 @@ public class ImageUploader {
                 .build();
         client.newCall(request).enqueue(callback);
     }
-    public static void upload(String path){
+    public static void upload(String path,ImageJson json){
         //todo
         File file = new File(path);
 
@@ -53,7 +54,7 @@ public class ImageUploader {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
+                e.printStackTrace();
             }
 
             @Override
@@ -61,8 +62,21 @@ public class ImageUploader {
                 if(response.isSuccessful()) {
                     String res = response.body().string();
                     Gson gson=new Gson();
-                    List<ImageServerUploadBackJson> imageList = gson.fromJson(res, new TypeToken<List<ImageServerUploadBackJson>>() {}.getType());
+                    System.out.println(110);
+                    ImageServerUploadBackJson imageList = gson.fromJson(res,ImageServerUploadBackJson.class);
+                    System.out.println(imageList.getData().getLinks().getUrl());
+                    json.setPic_url(imageList.getData().getLinks().getUrl());
+                    ImageServerUtil.addImage(new Callback() {
+                        @Override
+                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
+                        }
+
+                        @Override
+                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+                        }
+                    },json);
                 }
             }
         });
