@@ -16,6 +16,7 @@ public class PhotoDB extends SQLiteOpenHelper {
             +"password text)";
     private Context mContext;
 
+
     public PhotoDB(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         mContext=context;

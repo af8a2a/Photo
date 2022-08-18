@@ -25,6 +25,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="48dp">
         <!--输入账号图标-->
+
         <EditText
             android:id="@+id/et_account"
             android:layout_width="match_parent"

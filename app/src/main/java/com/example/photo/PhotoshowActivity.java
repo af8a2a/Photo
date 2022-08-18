@@ -35,8 +35,12 @@ public class PhotoshowActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
     private SwipeRefreshLayout refreshLayout;
-    private String username;
+    private static String username;
     private NavigationView navigationView;
+
+    public static String getUsername() {
+        return username;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +93,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                         }
                     }
                 }else{
+
                 }
             }
         });

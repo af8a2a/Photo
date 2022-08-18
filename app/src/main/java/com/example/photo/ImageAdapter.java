@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.photo.Entity.Favorite;
 import com.example.photo.Entity.ItemImage;
+import com.example.photo.util.ImageServerUtil;
 
 import java.util.List;
 
@@ -50,16 +52,38 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(mContext).inflate(resourceId,parent,false);
         ViewHolder holder=new ViewHolder(view);
+        boolean star=false;
+        Intent intent=new Intent(view.getContext(),ImageDetail.class);
         //点item进入详情界面
         holder.imageItemView.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 int position=holder.getAdapterPosition();
                 ItemImage image=mItemList.get(position);//得到item,送图片资源id
-                Intent intent=new Intent(view.getContext(),ImageDetail.class);
+                Favorite favorite=new Favorite();
+                favorite.setPic_url(image.getUrl());
+                favorite.setUsername(PhotoshowActivity.getUsername());
+
+                Thread t1=new Thread(() -> {
+                    boolean isStar=ImageServerUtil.checkStar(favorite);
+                    System.out.println(isStar);
+                    intent.putExtra("isStar",isStar);
+                    //跳转
+                });
+                t1.start();
+                Thread t2=new Thread(() -> {
+                    boolean isFavorite=ImageServerUtil.checkFavorite(favorite);
+                    intent.putExtra("isFavorite",isFavorite);
+                    System.out.println(isFavorite);
+                });
+                t2.start();
+                while(t1.isAlive()||t2.isAlive()){
+
+                }
                 intent.putExtra("image_url",image.getUrl());
-                //跳转
                 mContext.startActivity(intent);
+
             }
         });
         return holder;

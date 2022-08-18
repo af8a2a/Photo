@@ -2,6 +2,7 @@ package com.example.photo.util;
 
 import androidx.annotation.NonNull;
 
+import com.example.photo.Entity.Favorite;
 import com.example.photo.Entity.JsonUtil.ImageJson;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -51,5 +52,98 @@ public class ImageServerUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+// 切记
+// 开启一个新的线程来进行此操作
+    public static void addFavorite(Favorite favorite){
+
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("username",favorite.getUsername())
+                .add("pic_url",favorite.getPic_url())
+                .build();
+        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/addFavorite").post(requestBody).build();
+        try {
+            client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void removeFavorite(Favorite favorite){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("username",favorite.getUsername())
+                .add("pic_url",favorite.getPic_url())
+                .build();
+        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/removeFavorite").post(requestBody).build();
+        try {
+            client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void star(Favorite favorite){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("username",favorite.getUsername())
+                .add("pic_url",favorite.getPic_url())
+                .build();
+        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/star").post(requestBody).build();
+        try {
+            client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void removeStar(Favorite favorite){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("username",favorite.getUsername())
+                .add("pic_url",favorite.getPic_url())
+                .build();
+        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/removeStar").post(requestBody).build();
+        try {
+            client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static boolean checkStar(Favorite favorite){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("username",favorite.getUsername())
+                .add("pic_url",favorite.getPic_url())
+                .build();
+        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/checkStar").post(requestBody).build();
+        try {
+            Response response=client.newCall(request).execute();
+            if(response.isSuccessful()){
+                if(response.body().string().isEmpty()){
+                    return false;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public static boolean checkFavorite(Favorite favorite){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("username",favorite.getUsername())
+                .add("pic_url",favorite.getPic_url())
+                .build();
+        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/checkFavorite").post(requestBody).build();
+        try {
+            Response response=client.newCall(request).execute();
+                if(response.body().string().isEmpty()){
+                    return false;
+                }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }

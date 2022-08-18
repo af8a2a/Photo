@@ -2,6 +2,9 @@ package com.example.photo;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +27,8 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.example.photo.Entity.Favorite;
+import com.example.photo.util.ImageServerUtil;
 import com.github.piasy.biv.BigImageViewer;
 import com.github.piasy.biv.indicator.progresspie.ProgressPieIndicator;
 import com.github.piasy.biv.loader.ImageLoader;
@@ -40,6 +45,7 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
@@ -72,6 +78,8 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
         BigImageViewer.initialize(GlideImageLoader.with(getApplicationContext()));
         setContentView(R.layout.activity_image_detail);
 
+        favoriteState=getIntent().getBooleanExtra("isFavorite",false);
+        commendState=getIntent().getBooleanExtra("isStar",false);
         //显示图片
         imageView = findViewById(R.id.image);
         url = getIntent().getStringExtra("image_url");
@@ -140,6 +148,8 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
         btn_download.setOnClickListener(this);
         btn_favorite.setOnClickListener(this);
         btn_share.setOnClickListener(this);
+
+        init();
     }
 
     private void saveImage(String url){
@@ -158,37 +168,69 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
         }
         Toast.makeText(this,"下载完成!",Toast.LENGTH_SHORT).show();
     }
+    private void init(){
+        if(favoriteState==true){
+            btn_favorite.setImageResource(R.drawable.v_heart_primary_x48);
+
+        }else{
+            btn_favorite.setImageResource(R.drawable.v_heart_outline_primary_x48);
+        }
+
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.download: {
                 //todo
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        saveImage(url);
-                    }
-                }).start();
+                new Thread(() -> saveImage(url)).start();
                  Toast.makeText(this,"开始下载!",Toast.LENGTH_SHORT).show();
                 break;
             }
             case R.id.favorite:{
                 //todo
-                favoriteState=!favoriteState;
-                if(favoriteState==true){
+
+                if(favoriteState==false){
                     btn_favorite.setImageResource(R.drawable.v_heart_primary_x48);
+                    new Thread(() -> {
+                        Favorite favorite=new Favorite();
+                        favorite.setUsername(PhotoshowActivity.getUsername());
+                        favorite.setPic_url(url);
+                        ImageServerUtil.addFavorite(favorite);
+                    }).start();
                 }else{
                     btn_favorite.setImageResource(R.drawable.v_heart_outline_primary_x48);
+                    new Thread(()->{
+                        Favorite favorite=new Favorite();
+                        favorite.setUsername(PhotoshowActivity.getUsername());
+                        favorite.setPic_url(url);
+                        ImageServerUtil.removeFavorite(favorite);
+                    }).start();
                 }
+                favoriteState=!favoriteState;
                 Toast.makeText(this,"收藏!",Toast.LENGTH_SHORT).show();
                 break;
             }
             case R.id.commend:{
                 // TODO
-                commendState=true;
-                if(commendState==true){
+                commendState=!commendState;
+                if(commendState==false){
+                    new Thread(() -> {
+                        Favorite favorite=new Favorite();
+                        favorite.setUsername(PhotoshowActivity.getUsername());
+                        favorite.setPic_url(url);
+                        ImageServerUtil.star(favorite);
+                    }).start();
                     Toast.makeText(this,"点赞!",Toast.LENGTH_SHORT).show();
                 }else{
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Favorite favorite=new Favorite();
+                            favorite.setUsername(PhotoshowActivity.getUsername());
+                            favorite.setPic_url(url);
+                            ImageServerUtil.removeStar(favorite);
+                        }
+                    }).start();
                     Toast.makeText(this,"点赞!",Toast.LENGTH_SHORT).show();;
                 }
 
@@ -201,6 +243,9 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
             }
             case R.id.share:{
                 //todo
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData mClipData = ClipData.newPlainText("Label", url);
+                cm.setPrimaryClip(mClipData);
                 Toast.makeText(this,"分享!",Toast.LENGTH_SHORT).show();
                 break;
             }

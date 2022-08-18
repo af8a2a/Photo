@@ -3,7 +3,7 @@ package com.example.photo.util;
 import android.os.AsyncTask;
 
 import androidx.loader.content.AsyncTaskLoader;
-
+@Deprecated
 public class DownloadUtil {
     public static final int SUCCESS=0;
     public static final int FAILED=1;
