@@ -15,9 +15,11 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.photo.Entity.JsonUtil.ImageJson;
+import com.example.photo.Entity.UserImage;
 import com.example.photo.util.ImageServerUtil;
 import com.example.photo.util.ImageUploader;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.imageview.ShapeableImageView;
 
 public class UploadActivity extends AppCompatActivity {
     private MaterialButton selectImage;
@@ -25,7 +27,9 @@ public class UploadActivity extends AppCompatActivity {
     private ImageView thumail;
     private EditText Title;
     private String username;
-    String filePath;
+    private int icon=-1;
+    private String filePath;
+    private ShapeableImageView temp;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -35,6 +39,7 @@ public class UploadActivity extends AppCompatActivity {
             if (data != null) {
                 // 得到图片的全路径
                 Uri uri = data.getData();
+
                 String[] filePathColumns = {MediaStore.Images.Media.DATA};
                 Cursor cursor = getContentResolver().query(
                         uri,
@@ -48,6 +53,7 @@ public class UploadActivity extends AppCompatActivity {
 
                 filePath = cursor.getString(columnIndex);
                 Glide.with(this).load(uri).into(thumail);
+
 // 获取数据完毕后, 关闭游标
                 cursor.close();
             }
@@ -62,6 +68,9 @@ public class UploadActivity extends AppCompatActivity {
         Title=findViewById(R.id.editTextTextPersonName);
         commit=findViewById(R.id.commit);
         username=getIntent().getStringExtra("username");
+        icon=getIntent().getIntExtra("icon",-1);
+        temp=findViewById(R.id.nav_icon_image);
+
         selectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +87,14 @@ public class UploadActivity extends AppCompatActivity {
                 imageJson.setAuthor(username);
                 imageJson.setStar(0);
                 imageJson.setTitle(Title.getText().toString());
+                UserImage userImage=new UserImage();
+                userImage.setUsername(username);
                 ImageUploader.upload(filePath,imageJson);
+                userImage.setUser_img(imageJson.getPic_url());
+                if(icon!=-1){
+                    ImageServerUtil.UpdateUserAvatar(userImage);
+                    Glide.with(getApplicationContext()).load(userImage.getUser_img()).into(temp);
+                }
                 finish();
             }
         });

@@ -2,6 +2,7 @@ package com.example.photo.util;
 
 import androidx.annotation.NonNull;
 
+import com.example.photo.Entity.ItemImage;
 import com.example.photo.Entity.JsonUtil.ImageJson;
 import com.example.photo.Entity.JsonUtil.ImageServerUploadBackJson;
 import com.google.gson.Gson;
@@ -75,4 +76,5 @@ public class ImageUploader {
             }
         });
     }
+
 }

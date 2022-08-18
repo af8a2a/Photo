@@ -3,7 +3,9 @@ package com.example.photo.util;
 import androidx.annotation.NonNull;
 
 import com.example.photo.Entity.Favorite;
+import com.example.photo.Entity.ItemImage;
 import com.example.photo.Entity.JsonUtil.ImageJson;
+import com.example.photo.Entity.UserImage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -145,5 +147,19 @@ public class ImageServerUtil {
             e.printStackTrace();
         }
         return true;
+    }
+
+    public static void UpdateUserAvatar(UserImage image){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("username",image.getUsername())
+                .add("pic_url",image.getUser_img())
+                .build();
+        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/uploadAvatar").post(requestBody).build();
+        try {
+            client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

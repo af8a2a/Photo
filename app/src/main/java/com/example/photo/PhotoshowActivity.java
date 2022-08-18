@@ -103,6 +103,7 @@ public class PhotoshowActivity extends AppCompatActivity {
         navigationView=findViewById(R.id.nav_view);
         View headView=navigationView.getHeaderView(0);
         ShapeableImageView icon = headView.findViewById(R.id.nav_icon_image);
+
         Glide.with(getApplicationContext()).load("https://pic.img.ski/1660520531.png").placeholder(R.drawable.v_history_black_x24).into(icon);
         TextView user=headView.findViewById(R.id.nav_user_text);
         user.setText("user:"+username);
