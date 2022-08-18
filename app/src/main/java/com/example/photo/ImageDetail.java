@@ -166,7 +166,8 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
         }catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Toast.makeText(this,"下载完成!",Toast.LENGTH_SHORT).show();
+        runOnUiThread(() -> Toast.makeText(getApplicationContext(),"下载完成!",Toast.LENGTH_SHORT).show());
+
     }
     private void init(){
         if(favoriteState==true){

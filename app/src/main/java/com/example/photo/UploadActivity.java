@@ -30,6 +30,7 @@ public class UploadActivity extends AppCompatActivity {
     private int icon=-1;
     private String filePath;
     private ShapeableImageView temp;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

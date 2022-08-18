@@ -103,8 +103,20 @@ public class PhotoshowActivity extends AppCompatActivity {
         navigationView=findViewById(R.id.nav_view);
         View headView=navigationView.getHeaderView(0);
         ShapeableImageView icon = headView.findViewById(R.id.nav_icon_image);
+        icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(),UploadActivity.class);
+                intent.putExtra("username",username);
+                startActivity(intent);
+            }
+        });
 
-        Glide.with(getApplicationContext()).load("https://pic.img.ski/1660520531.png").placeholder(R.drawable.v_history_black_x24).into(icon);
+        new Thread(() -> {
+            String pic=ImageServerUtil.getUserAvatar(username);
+            runOnUiThread(() -> Glide.with(getApplicationContext()).load(pic).placeholder(R.drawable.v_history_black_x24).into(icon));
+
+        }).start();
         TextView user=headView.findViewById(R.id.nav_user_text);
         user.setText("user:"+username);
 

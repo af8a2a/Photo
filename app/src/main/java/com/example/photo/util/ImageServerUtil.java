@@ -162,4 +162,20 @@ public class ImageServerUtil {
             e.printStackTrace();
         }
     }
+    public static String getUserAvatar(String username){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("username",username)
+                .build();
+        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/userimg").post(requestBody).build();
+        try {
+            Response response=client.newCall(request).execute();
+            if(response.isSuccessful())
+                return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
