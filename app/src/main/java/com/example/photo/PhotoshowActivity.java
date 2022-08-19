@@ -37,7 +37,7 @@ public class PhotoshowActivity extends AppCompatActivity {
     private SwipeRefreshLayout refreshLayout;
     private static String username;
     private NavigationView navigationView;
-
+    private ShapeableImageView icon;
     public static String getUsername() {
         return username;
     }
@@ -52,7 +52,10 @@ public class PhotoshowActivity extends AppCompatActivity {
         username=getIntent().getStringExtra("username");
         //initData();
         //服务器加载数据
-        loadData_server();
+        Thread t=new Thread(() -> loadData_server());
+        t.start();
+        while(t.isAlive());
+        //loadData_server();
         recyclerView = findViewById(R.id.photo_list);
         imageAdapter = new ImageAdapter(PhotoshowActivity.this, R.layout.carditem, imageList);
         LinearLayoutManager llm=new LinearLayoutManager(this);
@@ -68,7 +71,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                 refreshList();
             }
         });
-
+        refreshList();
     }
     private void loadData_server(){
         Gson gson=new Gson();
@@ -102,7 +105,7 @@ public class PhotoshowActivity extends AppCompatActivity {
     private void initNav(){
         navigationView=findViewById(R.id.nav_view);
         View headView=navigationView.getHeaderView(0);
-        ShapeableImageView icon = headView.findViewById(R.id.nav_icon_image);
+        icon = headView.findViewById(R.id.nav_icon_image);
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,7 +177,10 @@ public class PhotoshowActivity extends AppCompatActivity {
                        //todo
                        imageAdapter.notifyDataSetChanged();
                        refreshLayout.setRefreshing(false);
-
+                       new Thread(() -> {
+                           String pic=ImageServerUtil.getUserAvatar(username);
+                           runOnUiThread(() -> Glide.with(getApplicationContext()).load(pic).placeholder(R.drawable.v_history_black_x24).into(icon));
+                       }).start();
                    }
                });
            }

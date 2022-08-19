@@ -9,17 +9,18 @@
     android:elevation="2dp"
     app:cardMaxElevation="2dp"
     app:cardCornerRadius="2dp" >
+
     <RelativeLayout
         android:id="@+id/preview_item"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/preview_image"
             android:layout_width="192dp"
-            android:maxHeight="339dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
+            android:maxHeight="339dp"
 
             android:scaleType="fitXY" />
 
@@ -42,12 +43,37 @@
             android:paddingStart="8dp"
             android:paddingTop="8dp" />
 
-        <TextView
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/star"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/preview_author"
-            android:layout_toRightOf="@id/preview_image" />
+            android:layout_alignBottom="@id/star_num"
+            android:layout_marginLeft="0dp"
+            android:layout_toRightOf="@id/preview_image"
+            android:src="@drawable/v_star_outline_x16" />
 
+        <TextView
+            android:id="@+id/star_num"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/preview_author"
+            android:layout_toRightOf="@id/star" />
+        <ImageView
+            android:id="@+id/favorite_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/v_heart_outline_primary_x16"
+            android:layout_toRightOf="@+id/star_num"
+            android:layout_below="@id/preview_author"
+            android:layout_alignBottom="@id/star_num"
+            />
+        <TextView
+            android:id="@+id/favorite_num"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/preview_author"
+            android:layout_toRightOf="@id/favorite_item" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
