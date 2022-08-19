@@ -47,7 +47,7 @@ public class PhotoshowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photoshow);
         //不再返回登录界面
-        MainActivity.mActivityInstance.finish();
+        //MainActivity.mActivityInstance.finish();
         //获取传递的用户名
         username=getIntent().getStringExtra("username");
         //initData();
@@ -108,6 +108,7 @@ public class PhotoshowActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(getApplicationContext(),UploadActivity.class);
                 intent.putExtra("username",username);
+                intent.putExtra("icon",1);
                 startActivity(intent);
             }
         });
@@ -173,6 +174,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                        //todo
                        imageAdapter.notifyDataSetChanged();
                        refreshLayout.setRefreshing(false);
+
                    }
                });
            }

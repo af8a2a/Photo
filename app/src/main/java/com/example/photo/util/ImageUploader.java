@@ -52,7 +52,26 @@ public class ImageUploader {
                 .addHeader("Accept","application/json")
                 .addHeader("Content-Type","multipart/form-data").post(body)
                 .build();
-        client.newCall(request).enqueue(new Callback() {
+
+        try {
+            Response response=client.newCall(request).execute();
+            if(response.isSuccessful()){
+                String res = response.body().string();
+                Gson gson=new Gson();
+                ImageServerUploadBackJson imageList = gson.fromJson(res,ImageServerUploadBackJson.class);
+                System.out.println("success");
+                json.setPic_url(imageList.getData().getLinks().getUrl());
+                Thread t = new Thread(() -> ImageServerUtil.addImage(json));
+                t.start();
+                while(t.isAlive());
+            }else {
+                System.out.println("fail");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /*client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 e.printStackTrace();
@@ -64,7 +83,7 @@ public class ImageUploader {
                     String res = response.body().string();
                     Gson gson=new Gson();
                     ImageServerUploadBackJson imageList = gson.fromJson(res,ImageServerUploadBackJson.class);
-                    System.out.println(imageList.getData().getLinks().getUrl());
+                    System.out.println("success");
                     json.setPic_url(imageList.getData().getLinks().getUrl());
                     new Thread(new Runnable() {
                         @Override
@@ -72,9 +91,11 @@ public class ImageUploader {
                             ImageServerUtil.addImage(json);
                         }
                     }).start();
+                }else{
+                    System.out.println("fail");
                 }
             }
-        });
+        });*/
     }
 
 }

@@ -21,6 +21,8 @@ import com.example.photo.util.ImageUploader;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 
+import java.net.URI;
+
 public class UploadActivity extends AppCompatActivity {
     private MaterialButton selectImage;
     private MaterialButton commit;
@@ -88,13 +90,38 @@ public class UploadActivity extends AppCompatActivity {
                 imageJson.setAuthor(username);
                 imageJson.setStar(0);
                 imageJson.setTitle(Title.getText().toString());
+
                 UserImage userImage=new UserImage();
                 userImage.setUsername(username);
-                ImageUploader.upload(filePath,imageJson);
+
+                Thread getUrl=new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ImageUploader.upload(filePath,imageJson);
+                    }
+                });
+                getUrl.start();
+                try {
+                    getUrl.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 userImage.setUser_img(imageJson.getPic_url());
+                icon=getIntent().getIntExtra("icon",-1);
+                Thread t1=new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ImageServerUtil.UpdateUserAvatar(userImage);
+                    }
+                });
                 if(icon!=-1){
-                    ImageServerUtil.UpdateUserAvatar(userImage);
-                    Glide.with(getApplicationContext()).load(userImage.getUser_img()).into(temp);
+                    t1.start();
+                    try {
+                        t1.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    //Glide.with(getApplicationContext()).load(userImage.getUser_img()).into(temp);
                 }
                 finish();
             }

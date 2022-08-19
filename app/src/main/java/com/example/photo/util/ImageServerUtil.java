@@ -153,7 +153,7 @@ public class ImageServerUtil {
         OkHttpClient client=new OkHttpClient();
         RequestBody requestBody=new FormBody.Builder()
                 .add("username",image.getUsername())
-                .add("pic_url",image.getUser_img())
+                .add("user_img",image.getUser_img())
                 .build();
         Request request=new Request.Builder().url("http://39.108.13.67:8844/img/uploadAvatar").post(requestBody).build();
         try {
