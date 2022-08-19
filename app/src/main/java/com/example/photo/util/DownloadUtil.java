@@ -3,6 +3,7 @@ package com.example.photo.util;
 import android.os.AsyncTask;
 
 import androidx.loader.content.AsyncTaskLoader;
+//没能力做下载进度条和查看了...
 @Deprecated
 public class DownloadUtil {
     public static final int SUCCESS=0;

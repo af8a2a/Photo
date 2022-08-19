@@ -60,7 +60,11 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+/*
+展示图片
+可以进行点赞，保存，收藏，放大等操作
 
+ */
 public class ImageDetail extends AppCompatActivity implements View.OnClickListener {
     private LinearLayout linearLayout;
     private ImageView btn_download;
@@ -72,6 +76,7 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
     private String url;
     private boolean favoriteState=false;
     private boolean commendState=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,9 +88,8 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
         //显示图片
         imageView = findViewById(R.id.image);
         url = getIntent().getStringExtra("image_url");
-
+        //开源库BigImageViewer的初始化
         imageView.setProgressIndicator(new ProgressPieIndicator());
-
         imageView.setImageViewFactory(new GlideImageViewFactory());
         imageView.setImageSaveCallback(new ImageSaveCallback() {
             @Override
@@ -151,13 +155,16 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
 
         init();
     }
-
+    //保存图片
     private void saveImage(String url){
         try {
+            //Glide下载图片
             File file=Glide.with(getApplicationContext()).download(url).submit().get();
             String imagePath = file.getAbsolutePath();
             String imageName=file.getName();
+            //插入至系统相册
             MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), imagePath, imageName, null);
+            //广播通知更新v
             getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + imagePath)));
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -169,6 +176,7 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
         runOnUiThread(() -> Toast.makeText(getApplicationContext(),"下载完成!",Toast.LENGTH_SHORT).show());
 
     }
+    //点击进入时初始化图标
     private void init(){
         if(favoriteState==true){
             btn_favorite.setImageResource(R.drawable.v_heart_primary_x48);
@@ -229,11 +237,13 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
                 commendState=!commendState;
                 break;
             }
+            //评论区功能可能弃用
             case R.id.comment:{
                 //todo
                 Toast.makeText(this,"评论!",Toast.LENGTH_SHORT).show();
                 break;
             }
+            //复制图片url至剪贴板
             case R.id.share:{
                 //todo
                 //粘贴板
@@ -243,6 +253,7 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
                 Toast.makeText(this,"分享!",Toast.LENGTH_SHORT).show();
                 break;
             }
+            //nothing to do
             case R.id.showimage:{
                 //todo
                 Toast.makeText(this,"放大!",Toast.LENGTH_SHORT).show();

@@ -21,18 +21,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
+//上传图片的工具类
 public class ImageUploader {
-    @Deprecated
-    public static void getToken(Callback callback){
-        OkHttpClient client=new OkHttpClient();
-        //JSONObject json=new JSONObject();
-        //RequestBody requestBody=new FormBody.Builder().build();
-        Request request=new Request.Builder().url("http://39.108.13.67:/img/token")
-                .get()
-                .build();
-        client.newCall(request).enqueue(callback);
-    }
+    //上传文件
     public static void upload(String path,ImageJson json){
         //todo
         File file = new File(path);
@@ -46,24 +37,31 @@ public class ImageUploader {
                         file.getName(),
                         MultipartBody.create(MediaType.parse("multipart/form-data"), file)
                 ).build();
-
+        //参数解释
+        //https://img.ski/api/v1/upload 是图床服务器的上传API
+        //Authorization                 用户的上传Token
+        //Accept                        获取类型
+        //Content-Type                  文件的类型和网页的编码
         Request request=new Request.Builder().url("https://img.ski/api/v1/upload")
                 .addHeader("Authorization","Bearer 1|nCKcl9R4t56sZtKPH1q9vGjRMdb9d0xSRVbzJ7N2")
                 .addHeader("Accept","application/json")
                 .addHeader("Content-Type","multipart/form-data").post(body)
                 .build();
-
         try {
             Response response=client.newCall(request).execute();
             if(response.isSuccessful()){
+                //post返回值
                 String res = response.body().string();
+                //Gson解析返回的json
                 Gson gson=new Gson();
                 ImageServerUploadBackJson imageList = gson.fromJson(res,ImageServerUploadBackJson.class);
-                System.out.println("success");
+                //System.out.println("success");
                 json.setPic_url(imageList.getData().getLinks().getUrl());
+                //开启线程将上传图床的图片返回的url更新至数据库
                 Thread t = new Thread(() -> ImageServerUtil.addImage(json));
                 t.start();
                 while(t.isAlive());
+                //等待信息同步
             }else {
                 System.out.println("fail");
             }

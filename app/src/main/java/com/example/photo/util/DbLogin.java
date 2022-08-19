@@ -23,19 +23,14 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class DbLogin{
-    private static final String ip="http://39.108.13.67";
-    private static final String port=":8848";
-    private static final String LOGIN_API="/user/login";
-    private static final String REGISTER_API="/user/register";
-    private static final String RESET_API="/user/reset";
-
     public static void login(String username,String password,Callback callback){
         OkHttpClient client=new OkHttpClient();
-        //JSONObject json=new JSONObject();
         RequestBody requestBody=new FormBody.Builder()
                 .add("username",username)
                 .add("password",password).build();
+        //登录服务器API
         Request request=new Request.Builder().url("http://39.108.13.67:8848/user/login").post(requestBody).build();
+        //发送HTTP请求
         client.newCall(request).enqueue(callback);
     }
     public static void register(String username,String password,Callback callback){
@@ -44,13 +39,14 @@ public class DbLogin{
         RequestBody requestBody=new FormBody.Builder()
                 .add("username",username)
                 .add("password",password).build();
+        //注册请求
         Request request=new Request.Builder().url("http://39.108.13.67:8848/user/register").post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
 
     public static void reset(String username,String password,Callback callback){
         OkHttpClient client=new OkHttpClient();
-        //JSONObject json=new JSONObject();
+        //重置密码请求
         RequestBody requestBody=new FormBody.Builder()
                 .add("username",username)
                 .add("password",password).build();

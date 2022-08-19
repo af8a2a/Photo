@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.photo.util.DbLogin;
+import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button login=findViewById(R.id.bt_login);
+        MaterialButton login=findViewById(R.id.bt_login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
