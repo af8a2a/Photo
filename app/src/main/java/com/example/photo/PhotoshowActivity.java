@@ -71,7 +71,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                 refreshList();
             }
         });
-        refreshList();
+        //refreshList();
     }
     private void loadData_server(){
         Gson gson=new Gson();
@@ -92,6 +92,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                             news.setUrl(imageList.get(i).getPic_url());
                             news.setImageName(imageList.get(i).getTitle());
                             news.setAuthor(imageList.get(i).getAuthor());
+                            news.setStar(imageList.get(i).getStar());
                             PhotoshowActivity.this.imageList.add(news);
                         }
                     }

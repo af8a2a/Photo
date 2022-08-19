@@ -32,12 +32,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
         ImageView Image;
         TextView Author;
         TextView Name;
+        TextView Star;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageItemView=itemView;
             Image=itemView.findViewById(R.id.preview_image);
             Author=itemView.findViewById(R.id.preview_author);
             Name=itemView.findViewById(R.id.preview_name);
+            Star=itemView.findViewById(R.id.preview_star_num);
         }
      }
 
@@ -97,6 +99,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
         //holder.Image.setImageURI(Uri.parse(item.getUrl()));
         Glide.with(mContext).load(item.getUrl()).apply(options).into(holder.Image);
         holder.Author.setText(item.getAuthor());
+        holder.Star.setText(String.valueOf(item.getStar()));
         holder.Name.setText(item.getImageName());
     }
     @Override
