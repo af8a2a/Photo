@@ -77,32 +77,35 @@ public class PhotoshowActivity extends AppCompatActivity {
     }
     private void loadData_server(){
         Gson gson=new Gson();
-        ImageServerUtil.getImage(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if(response.isSuccessful()) {
-                    String res = response.body().string();
-                    List<ImageJson> imageList = gson.fromJson(res, new TypeToken<List<ImageJson>>() {}.getType());
-                    for (int i = 0; i < imageList.size(); i++) {
-                        ItemImage news = new ItemImage();
-                        if(!PhotoshowActivity.this.imageList.contains(imageList.get(i).getPid())) {
-                            news.setUrl(imageList.get(i).getPic_url());
-                            news.setImageName(imageList.get(i).getTitle());
-                            news.setAuthor(imageList.get(i).getAuthor());
-                            news.setStar(imageList.get(i).getStar());
-                            PhotoshowActivity.this.imageList.add(news);
-                        }
-                    }
-                }else{
-
+        if(SELECT_TYPE==1) {
+            ImageServerUtil.getImage(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    e.printStackTrace();
                 }
-            }
-        });
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String res = response.body().string();
+                        List<ImageJson> imageList = gson.fromJson(res, new TypeToken<List<ImageJson>>() {
+                        }.getType());
+                        for (int i = 0; i < imageList.size(); i++) {
+                            ItemImage news = new ItemImage();
+                            if (!PhotoshowActivity.this.imageList.contains(imageList.get(i).getPid())) {
+                                news.setUrl(imageList.get(i).getPic_url());
+                                news.setImageName(imageList.get(i).getTitle());
+                                news.setAuthor(imageList.get(i).getAuthor());
+                                news.setStar(imageList.get(i).getStar());
+                                PhotoshowActivity.this.imageList.add(news);
+                            }
+                        }
+                    } else {
+
+                    }
+                }
+            });
+        }else{
+        }
     }
 
     private void initNav(){
