@@ -78,7 +78,7 @@ public class PhotoshowActivity extends AppCompatActivity {
     private void loadData_server(){
         Gson gson=new Gson();
         if(SELECT_TYPE==1) {
-            ImageServerUtil.getImage(new Callback() {
+            ImageServerUtil.getImage(username,new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     e.printStackTrace();
@@ -90,13 +90,15 @@ public class PhotoshowActivity extends AppCompatActivity {
                         List<ImageJson> imageList = gson.fromJson(res, new TypeToken<List<ImageJson>>() {
                         }.getType());
                         for (int i = 0; i < imageList.size(); i++) {
-                            ItemImage news = new ItemImage();
+                            ItemImage image = new ItemImage();
                             if (!PhotoshowActivity.this.imageList.contains(imageList.get(i).getPid())) {
-                                news.setUrl(imageList.get(i).getPic_url());
-                                news.setImageName(imageList.get(i).getTitle());
-                                news.setAuthor(imageList.get(i).getAuthor());
-                                news.setStar(imageList.get(i).getStar());
-                                PhotoshowActivity.this.imageList.add(news);
+                                image.setUrl(imageList.get(i).getPic_url());
+                                image.setImageName(imageList.get(i).getTitle());
+                                image.setAuthor(imageList.get(i).getAuthor());
+                                image.setStar(imageList.get(i).getStar());
+                                String bool=String.valueOf(imageList.get(i).getFavorite());
+                                image.setUserFavorite(Boolean.valueOf(bool));
+                                PhotoshowActivity.this.imageList.add(image);
                             }
                         }
                     } else {

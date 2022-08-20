@@ -33,6 +33,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
         TextView Author;
         TextView Name;
         TextView Star;
+        ImageView favorite;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageItemView=itemView;
@@ -40,6 +41,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
             Author=itemView.findViewById(R.id.preview_author);
             Name=itemView.findViewById(R.id.preview_name);
             Star=itemView.findViewById(R.id.preview_star_num);
+            favorite=itemView.findViewById(R.id.preview_favorite);
         }
      }
 
@@ -101,6 +103,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
         holder.Author.setText(item.getAuthor());
         holder.Star.setText(String.valueOf(item.getStar()));
         holder.Name.setText(item.getImageName());
+        if(item.isUserFavorite()){
+            holder.favorite.setImageResource(R.drawable.v_heart_x16);
+        }else{
+            holder.favorite.setImageResource(R.drawable.v_heart_outline_primary_x16);
+        }
     }
     @Override
     public int getItemCount() {

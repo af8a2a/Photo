@@ -11,6 +11,14 @@ public class ItemImage {
 
     }
 
+    public boolean isUserFavorite() {
+        return isUserFavorite;
+    }
+
+    public void setUserFavorite(boolean userFavorite) {
+        isUserFavorite = userFavorite;
+    }
+
     public int getStar() {
         return star;
     }

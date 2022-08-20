@@ -22,12 +22,21 @@ import okhttp3.Response;
 //异步请求
 public class ImageServerUtil {
     //获取服务器的图片列表信息
+    public static void getImage(String username,Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("username",username).build();
+        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/userget").post(requestBody).build();
+        client.newCall(request).enqueue(callback);
+    }
+    /*
     public static void getImage(Callback callback){
         OkHttpClient client=new OkHttpClient();
         //get请求
         Request request=new Request.Builder().url("http://39.108.13.67:8844/img/get").get().build();
         client.newCall(request).enqueue(callback);
     }
+*/
     public static void addImage(ImageJson imageJson){
         OkHttpClient client=new OkHttpClient();
         RequestBody requestBody=new FormBody.Builder()
