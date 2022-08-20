@@ -38,6 +38,7 @@ public class PhotoshowActivity extends AppCompatActivity {
     private static String username;
     private NavigationView navigationView;
     private ShapeableImageView icon;
+    private int SELECT_TYPE=1;
     public static String getUsername() {
         return username;
     }
@@ -69,6 +70,7 @@ public class PhotoshowActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 refreshList();
+                initNav();
             }
         });
         //refreshList();
@@ -134,6 +136,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                         break;
                     }
                     case R.id.nav_favorite:{
+                        SELECT_TYPE=2;
                         //todo
                         break;
                     }

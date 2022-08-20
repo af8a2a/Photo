@@ -6,6 +6,7 @@ public class ItemImage {
     private String Author;
     private String url;
     private int star;
+    private boolean isUserFavorite;
     public ItemImage() {
 
     }

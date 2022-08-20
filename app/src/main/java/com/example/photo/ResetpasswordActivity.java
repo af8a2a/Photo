@@ -2,6 +2,7 @@ package com.example.photo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatEditText;
 
 import android.graphics.Typeface;
 import android.os.Bundle;

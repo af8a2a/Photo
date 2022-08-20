@@ -55,10 +55,10 @@
         <TextView
             android:id="@+id/preview_star_num"
             android:layout_width="20dp"
-            android:layout_height="16dp"
+            android:layout_height="18dp"
             android:layout_alignBottom="@id/preview_image"
-            android:gravity="center"
-            android:layout_toRightOf="@id/preview_star" />
+            android:layout_toRightOf="@id/preview_star"
+            android:gravity="center|top" />
 
         <ImageView
             android:id="@+id/favorite_item"
