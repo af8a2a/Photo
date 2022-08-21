@@ -2,6 +2,7 @@ package com.example.photo.util;
 
 import androidx.annotation.NonNull;
 
+import com.example.photo.Entity.Comment;
 import com.example.photo.Entity.Favorite;
 import com.example.photo.Entity.ItemImage;
 import com.example.photo.Entity.JsonUtil.ImageJson;
@@ -34,6 +35,24 @@ public class ImageServerUtil {
         RequestBody requestBody=new FormBody.Builder()
                 .add("username",username).build();
         Request request=new Request.Builder().url("http://39.108.13.67:8844/img/Favorite").post(requestBody).build();
+        client.newCall(request).enqueue(callback);
+    }
+
+    public static void getComment(Comment comment, Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("pic_url",comment.getPic_url()).build();
+        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/getComment").post(requestBody).build();
+        client.newCall(request).enqueue(callback);
+    }
+    public static void addComment(Comment comment, Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("username",comment.getUsername())
+                .add("pic_url",comment.getPic_url())
+                .add("comment_text",comment.getComment_text())
+                .build();
+        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/addComment").post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
     /*
