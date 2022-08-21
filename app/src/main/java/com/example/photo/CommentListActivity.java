@@ -26,6 +26,7 @@ import okhttp3.Response;
 public class CommentListActivity extends AppCompatActivity {
     private String url;
     private RecyclerView recyclerView;
+    private boolean start=false;
     private CommentAdapter adapter;
     private List<Comment> commentList=new ArrayList<>();
     private SwipeRefreshLayout refreshLayout;
@@ -35,6 +36,7 @@ public class CommentListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comment_list);
         url=getIntent().getStringExtra("url");
         load();
+        while(!start);
         recyclerView=findViewById(R.id.comment_list);
         refreshLayout=findViewById(R.id.comment_refresh);
         LinearLayoutManager llm=new LinearLayoutManager(this);
@@ -65,25 +67,31 @@ public class CommentListActivity extends AppCompatActivity {
                     List<Comment> comments = gson.fromJson(res, new TypeToken<List<Comment>>() {
                     }.getType());
                     commentList.addAll(comments);
+                    start=true;
                 }
             }
         });
     }
     private void refresh(){
         commentList.clear();
-        try{
-            load();
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        runOnUiThread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                adapter.notifyDataSetChanged();
-                refreshLayout.setRefreshing(false);
+                load();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                        refreshLayout.setRefreshing(false);
+                    }
+                });
             }
-        });
+        }).start();
     }
 
 }

@@ -36,6 +36,7 @@ public class PhotoshowActivity extends AppCompatActivity {
     private ImageAdapter imageAdapter;
     private SwipeRefreshLayout refreshLayout;
     private static String username;
+    private boolean start=true;
     private NavigationView navigationView;
     private ShapeableImageView icon;
     private int SELECT_TYPE=1;
@@ -53,9 +54,8 @@ public class PhotoshowActivity extends AppCompatActivity {
         username=getIntent().getStringExtra("username");
         //initData();
         //服务器加载数据
-        Thread t=new Thread(() -> loadData_server());
-        t.start();
-        while(t.isAlive());
+        loadData_server();
+        while(start);
         //loadData_server();
         recyclerView = findViewById(R.id.photo_list);
         imageAdapter = new ImageAdapter(PhotoshowActivity.this, R.layout.carditem, imageList);
@@ -99,6 +99,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                                 String bool=String.valueOf(imageList.get(i).getFavorite());
                                 image.setUserFavorite(Boolean.valueOf(bool));
                                 PhotoshowActivity.this.imageList.add(image);
+                                start=false;
                             }
                         }
                     }
