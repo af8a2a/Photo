@@ -55,7 +55,7 @@ public class PhotoshowActivity extends AppCompatActivity {
         //initData();
         //服务器加载数据
         loadData_server();
-        while(start);
+        //while(start);
         //loadData_server();
         recyclerView = findViewById(R.id.photo_list);
         imageAdapter = new ImageAdapter(PhotoshowActivity.this, R.layout.carditem, imageList);

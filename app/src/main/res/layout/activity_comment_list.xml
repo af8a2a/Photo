@@ -5,21 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CommentListActivity">
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/comment_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="195dp">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/comment_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/comment_addButton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        />
+        android:id="@+id/comment_addButton"
+        style="@style/Widget.Design.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/v_plus_dark_x24"
+        android:theme="@style/AppTheme" />
 </androidx.constraintlayout.widget.ConstraintLayout>

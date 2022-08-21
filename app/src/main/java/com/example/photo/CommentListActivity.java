@@ -6,12 +6,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.photo.Entity.Comment;
 import com.example.photo.Entity.JsonUtil.ImageJson;
 import com.example.photo.util.ImageServerUtil;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -30,13 +33,15 @@ public class CommentListActivity extends AppCompatActivity {
     private CommentAdapter adapter;
     private List<Comment> commentList=new ArrayList<>();
     private SwipeRefreshLayout refreshLayout;
+    private FloatingActionButton floatingActionButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_list);
         url=getIntent().getStringExtra("url");
         load();
-        while(!start);
+        //while(!start);
         recyclerView=findViewById(R.id.comment_list);
         refreshLayout=findViewById(R.id.comment_refresh);
         LinearLayoutManager llm=new LinearLayoutManager(this);
@@ -47,6 +52,15 @@ public class CommentListActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 refresh();
+            }
+        });
+        floatingActionButton=findViewById(R.id.comment_addButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(),addComment.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
             }
         });
     }
