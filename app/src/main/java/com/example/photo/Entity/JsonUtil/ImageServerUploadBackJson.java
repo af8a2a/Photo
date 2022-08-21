@@ -1,5 +1,6 @@
 package com.example.photo.Entity.JsonUtil;
 
+//图床上传API的返回JSON
 public class ImageServerUploadBackJson {
 
     private Boolean status;

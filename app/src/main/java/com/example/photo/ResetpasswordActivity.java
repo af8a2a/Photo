@@ -21,7 +21,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-//重置密码 todo
+//重置密码
 public class ResetpasswordActivity extends AppCompatActivity {
     private ImageView passwordShow;
     private Boolean bPwdSwitch=false;

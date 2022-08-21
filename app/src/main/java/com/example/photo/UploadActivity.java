@@ -22,7 +22,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.net.URI;
-
+/*
+上传图片的activity
+修改上传的头像工作不稳定
+暂未查明原因
+ */
 public class UploadActivity extends AppCompatActivity {
     private MaterialButton selectImage;
     private MaterialButton commit;

@@ -29,6 +29,13 @@ public class ImageServerUtil {
         Request request=new Request.Builder().url("http://39.108.13.67:8844/img/userget").post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
+    public static void getFavorite(String username,Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("username",username).build();
+        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/Favorite").post(requestBody).build();
+        client.newCall(request).enqueue(callback);
+    }
     /*
     public static void getImage(Callback callback){
         OkHttpClient client=new OkHttpClient();

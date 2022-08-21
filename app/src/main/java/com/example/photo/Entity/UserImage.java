@@ -1,5 +1,10 @@
 package com.example.photo.Entity;
-
+/*
+用户的头像
+data_id:数据库的自增id
+username:用户名
+user_img:图片url
+ */
 public class UserImage {
     private Integer data_id;
     private String username;

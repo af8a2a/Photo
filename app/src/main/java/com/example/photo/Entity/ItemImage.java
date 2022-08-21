@@ -1,5 +1,13 @@
 package com.example.photo.Entity;
-
+/*
+图片属性
+pid:数据库id
+ImageName:展示的图片名
+Author: 上传的作者
+url:图片url
+star:点赞数
+isUserFavorite:当前登录用户是否收藏
+ */
 public class ItemImage {
     private int pid;
     private String ImageName;

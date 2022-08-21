@@ -21,7 +21,9 @@ import com.example.photo.Entity.ItemImage;
 import com.example.photo.util.ImageServerUtil;
 
 import java.util.List;
-
+/*
+RecyclerView适配器
+ */
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
     private List<ItemImage> mItemList;
     private Context mContext;

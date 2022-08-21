@@ -101,12 +101,37 @@ public class PhotoshowActivity extends AppCompatActivity {
                                 PhotoshowActivity.this.imageList.add(image);
                             }
                         }
-                    } else {
-
                     }
                 }
             });
-        }else{
+        }
+        else{
+            ImageServerUtil.getFavorite(username, new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    e.printStackTrace();
+                }
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String res = response.body().string();
+                        List<ImageJson> imageList = gson.fromJson(res, new TypeToken<List<ImageJson>>() {
+                        }.getType());
+                        for (int i = 0; i < imageList.size(); i++) {
+                            ItemImage image = new ItemImage();
+                            if (!PhotoshowActivity.this.imageList.contains(imageList.get(i).getPid())) {
+                                image.setUrl(imageList.get(i).getPic_url());
+                                image.setImageName(imageList.get(i).getTitle());
+                                image.setAuthor(imageList.get(i).getAuthor());
+                                image.setStar(imageList.get(i).getStar());
+                                String bool=String.valueOf(imageList.get(i).getFavorite());
+                                image.setUserFavorite(Boolean.valueOf(bool));
+                                PhotoshowActivity.this.imageList.add(image);
+                            }
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -136,13 +161,14 @@ public class PhotoshowActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.nav_download:{
-                    //todo
+                    case R.id.nav_all:{
+                        SELECT_TYPE=1;
+                        refreshList();
                         break;
                     }
                     case R.id.nav_favorite:{
                         SELECT_TYPE=2;
-                        //todo
+                        refreshList();
                         break;
                     }
                     case R.id.nav_setting:{
