@@ -239,8 +239,11 @@ public class ImageDetail extends AppCompatActivity implements View.OnClickListen
             }
             //评论区功能可能弃用
             case R.id.comment:{
-                //todo
-                Toast.makeText(this,"评论!",Toast.LENGTH_SHORT).show();
+
+                Intent intent=new Intent(getApplicationContext(),CommentListActivity.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
+                //Toast.makeText(this,"评论!",Toast.LENGTH_SHORT).show();
                 break;
             }
             //复制图片url至剪贴板
