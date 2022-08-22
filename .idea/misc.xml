@@ -15,10 +15,12 @@
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/ic_baseline_bookmarks_24.xml" value="0.1675" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.169" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/ic_baseline_cloud_download_24.xml" value="0.179" />
+        <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/ic_baseline_cloud_download_48.xml" value="0.167" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/ic_baseline_visibility_24.xml" value="0.169" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/ic_baseline_visibility_off_24.xml" value="0.169" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1655" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/image_failed_new.xml" value="0.1655" />
+        <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/v_download_black_x48.xml" value="0.167" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/v_heart_outline_primary_x16.xml" value="0.22" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/v_heart_primary_white.xml" value="0.1655" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/v_heart_primary_x48.xml" value="0.179" />
@@ -30,17 +32,17 @@
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/v_thumb_up_primary_x48.xml" value="0.179" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/activity_add_comment.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/activity_comment_list.xml" value="0.264" />
-        <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/activity_image_detail.xml" value="0.1" />
+        <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/activity_image_detail.xml" value="0.176" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/activity_main.xml" value="0.44243792325056436" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/activity_register.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/activity_upload.xml" value="0.1" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/activity_write_comment.xml" value="0.1" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/carditem.xml" value="0.536" />
-        <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/comment_item.xml" value="0.5" />
+        <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/comment_item.xml" value="0.1" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/fragment_dashboard.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/fragment_home.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/fragment_register.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/info.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/info.xml" value="0.1" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/item.xml" value="0.264" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/list_item.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/nav_header.xml" value="0.4" />
