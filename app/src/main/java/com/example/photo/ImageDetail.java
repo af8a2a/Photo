@@ -234,23 +234,28 @@ public class ImageDetail extends AppCompatActivity  {
         favorite.setUsername(PhotoshowActivity.getUsername());
         favorite.setPic_url(url);
         bottomNavigationView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED);
+        bottomNavigationView.setDefaultFocusHighlightEnabled(false);
+        //bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_btm_download: {
+                        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
                         new Thread(() -> saveImage(url)).start();
                         Toast.makeText(getApplicationContext(),"开始下载!",Toast.LENGTH_SHORT).show();
+
                         break;
                     }
                     case R.id.nav_btm_favorite:{
+                        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
                         if(favoriteState==false){
-                            btn_favorite.setImageResource(R.drawable.v_heart_primary_x48);
+                            item.setIcon(R.drawable.v_heart_primary_x48);
                             new Thread(() -> {
                                 ImageServerUtil.addFavorite(favorite);
                             }).start();
                         }else{
-                            btn_favorite.setImageResource(R.drawable.v_heart_outline_primary_x48);
+                            item.setIcon(R.drawable.v_heart_outline_primary_x48);
                             new Thread(()->{
                                 ImageServerUtil.removeFavorite(favorite);
                             }).start();
@@ -260,11 +265,12 @@ public class ImageDetail extends AppCompatActivity  {
                         break;
                     }
                     case R.id.nav_btm_star:{
-
+                        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
                         if(commendState==false){
                             new Thread(() -> {
                                 ImageServerUtil.star(favorite);
                             }).start();
+                            item.setIcon(R.drawable.v_thumb_up_primary_x48);
                             Toast.makeText(getApplicationContext(),"点赞",Toast.LENGTH_SHORT).show();
                         }else{
                             new Thread(new Runnable() {
@@ -273,12 +279,14 @@ public class ImageDetail extends AppCompatActivity  {
                                     ImageServerUtil.removeStar(favorite);
                                 }
                             }).start();
+                            item.setIcon(R.drawable.good);
                             Toast.makeText(getApplicationContext(),"取消点赞",Toast.LENGTH_SHORT).show();;
                         }
                         commendState=!commendState;
                         break;
                     }
                     case R.id.nav_btm_comment:{
+                        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
                         Intent intent=new Intent(getApplicationContext(),CommentListActivity.class);
                         intent.putExtra("url",url);
                         startActivity(intent);
@@ -287,7 +295,7 @@ public class ImageDetail extends AppCompatActivity  {
                     }
                     //复制图片url至剪贴板
                     case R.id.nav_btm_share:{
-                        //todo
+                        bottomNavigationView.getMenu().findItem(item.getItemId()).setChecked(true);
                         //粘贴板
                         ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                         ClipData mClipData = ClipData.newPlainText("Label", url);
