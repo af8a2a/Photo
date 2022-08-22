@@ -27,6 +27,7 @@
         style="@style/Widget.Design.FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/v_plus_dark_x24"
         android:theme="@style/AppTheme" />
 </androidx.constraintlayout.widget.ConstraintLayout>

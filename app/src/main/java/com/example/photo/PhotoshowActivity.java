@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -17,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.example.photo.Entity.JsonUtil.ImageJson;
 import com.example.photo.Entity.ItemImage;
 import com.example.photo.util.ImageServerUtil;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -40,6 +43,8 @@ public class PhotoshowActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ShapeableImageView icon;
     private int SELECT_TYPE=1;
+    private FloatingActionButton actionButton;
+    private DrawerLayout drawerLayout;
     public static String getUsername() {
         return username;
     }
@@ -48,9 +53,11 @@ public class PhotoshowActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photoshow);
+        drawerLayout=findViewById(R.id.drawerlayout);
         //不再返回登录界面
         //MainActivity.mActivityInstance.finish();
         //获取传递的用户名
+        actionButton=findViewById(R.id.floatingActionButton);
         username=getIntent().getStringExtra("username");
         //initData();
         //服务器加载数据
@@ -71,6 +78,12 @@ public class PhotoshowActivity extends AppCompatActivity {
             public void onRefresh() {
                 refreshList();
                 initNav();
+            }
+        });
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.START);
             }
         });
         //refreshList();
@@ -157,7 +170,6 @@ public class PhotoshowActivity extends AppCompatActivity {
         }).start();
         TextView user=headView.findViewById(R.id.nav_user_text);
         user.setText("user:"+username);
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
