@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_btm_download"
+        android:icon="@drawable/ic_baseline_cloud_download_48"
+        android:title="下载" />
+    <item
+        android:id="@+id/nav_btm_star"
+        android:title="点赞"
+        android:icon="@drawable/good" />
+    <item
+        android:id="@+id/nav_btm_favorite"
+        android:icon="@drawable/v_heart_outline_primary_x48"
+        android:title="收藏" />
+    <item
+        android:id="@+id/nav_btm_share"
+        android:title="转发"
+        android:icon="@drawable/v_share_primary_x48"/>
+    <item
+        android:id="@+id/nav_btm_comment"
+        android:title="评论"
+        android:icon="@drawable/v_info_primary_x48" />
+</menu>

@@ -40,7 +40,6 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxjava:3.x.y"
     implementation 'io.github.lucksiege:compress:v3.10.6'
     implementation 'io.github.lucksiege:ucrop:v3.10.6'
-
     implementation 'com.github.piasy:BigImageViewer:1.8.1'
     implementation 'com.github.piasy:GlideImageLoader:1.8.1'
     implementation 'com.github.piasy:GlideImageViewFactory:1.8.1'
