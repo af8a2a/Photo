@@ -61,7 +61,7 @@ public class PhotoshowActivity extends AppCompatActivity {
         username=getIntent().getStringExtra("username");
         //initData();
         //服务器加载数据
-        loadData_server();
+        //loadData_server();
         //while(start);
         //loadData_server();
         recyclerView = findViewById(R.id.photo_list);
@@ -86,7 +86,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
-        //refreshList();
+        refreshList();
     }
     private void loadData_server(){
         Gson gson=new Gson();
@@ -166,7 +166,6 @@ public class PhotoshowActivity extends AppCompatActivity {
         new Thread(() -> {
             String pic=ImageServerUtil.getUserAvatar(username);
             runOnUiThread(() -> Glide.with(getApplicationContext()).load(pic).placeholder(R.drawable.v_history_black_x24).into(icon));
-
         }).start();
         TextView user=headView.findViewById(R.id.nav_user_text);
         user.setText("user:"+username);
@@ -187,11 +186,6 @@ public class PhotoshowActivity extends AppCompatActivity {
                     case R.id.nav_setting:{
                         //todo
                         break;
-                    }
-                    case R.id.nav_readhistory:{
-                        //todo
-                        break;
-
                     }
                     case R.id.nav_upload:{
                         Intent intent=new Intent(getApplicationContext(),UploadActivity.class);

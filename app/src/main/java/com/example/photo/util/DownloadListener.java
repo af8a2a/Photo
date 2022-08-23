@@ -1,5 +1,5 @@
 package com.example.photo.util;
-
+@Deprecated
 public interface DownloadListener {
     void onProgress(int progress);
     void onSuccess();

@@ -28,25 +28,21 @@ public class addComment extends AppCompatActivity {
         url=getIntent().getStringExtra("url");
         comment_text=findViewById(R.id.et_comment);
         sumbit=findViewById(R.id.btn_submit);
-        sumbit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Comment comment=new Comment();
-                comment.setPic_url(url);
-                comment.setUsername(PhotoshowActivity.getUsername());
-                comment.setComment_text(comment_text.getText().toString());
-                ImageServerUtil.addComment(comment, new Callback() {
-                    @Override
-                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                        finish();
-                    }
-                });
-            }
+        sumbit.setOnClickListener(view -> {
+            Comment comment=new Comment();
+            comment.setPic_url(url);
+            comment.setUsername(PhotoshowActivity.getUsername());
+            comment.setComment_text(comment_text.getText().toString());
+            ImageServerUtil.addComment(comment, new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    e.printStackTrace();
+                }
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response){
+                    finish();
+                }
+            });
         });
     }
 }

@@ -26,6 +26,8 @@ import java.net.URI;
 上传图片的activity
 修改上传的头像工作不稳定
 暂未查明原因
+todo
+需要优化
  */
 public class UploadActivity extends AppCompatActivity {
     private MaterialButton selectImage;
@@ -94,22 +96,21 @@ public class UploadActivity extends AppCompatActivity {
                 imageJson.setAuthor(username);
                 imageJson.setStar(0);
                 imageJson.setTitle(Title.getText().toString());
-
                 UserImage userImage=new UserImage();
                 userImage.setUsername(username);
 
-                Thread getUrl=new Thread(new Runnable() {
+                new Thread(new Runnable() {
                     @Override
                     public void run() {
                         ImageUploader.upload(filePath,imageJson);
+                        userImage.setUser_img(imageJson.getPic_url());
+                        icon=getIntent().getIntExtra("icon",-1);
+                        if(icon!=-1) {
+                            ImageServerUtil.UpdateUserAvatar(userImage);
+                        }
                     }
-                });
-                getUrl.start();
-                try {
-                    getUrl.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                }).start();
+                /*
                 userImage.setUser_img(imageJson.getPic_url());
                 icon=getIntent().getIntExtra("icon",-1);
                 Thread t1=new Thread(new Runnable() {
@@ -118,6 +119,7 @@ public class UploadActivity extends AppCompatActivity {
                         ImageServerUtil.UpdateUserAvatar(userImage);
                     }
                 });
+
                 if(icon!=-1){
                     t1.start();
                     try {
@@ -127,6 +129,7 @@ public class UploadActivity extends AppCompatActivity {
                     }
                     //Glide.with(getApplicationContext()).load(userImage.getUser_img()).into(temp);
                 }
+                 */
                 finish();
             }
         });
