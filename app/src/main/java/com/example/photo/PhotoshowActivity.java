@@ -1,13 +1,18 @@
 package com.example.photo;
 
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -24,6 +29,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.sun.istack.Builder;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -183,8 +189,28 @@ public class PhotoshowActivity extends AppCompatActivity {
                         refreshList();
                         break;
                     }
-                    case R.id.nav_setting:{
-                        //todo
+                    case R.id.nav_exit:{
+                        SharedPreferences preferences=getSharedPreferences("login",MODE_PRIVATE);
+                        SharedPreferences.Editor edit=preferences.edit();
+                        AlertDialog.Builder dialog=new AlertDialog.Builder(PhotoshowActivity.this);
+                        AlertDialog alert = dialog.setIcon(R.drawable.v_info_primary_x48)
+                                .setTitle("系统提示")
+                                .setMessage("天哪，我的老伙计，你要退出登录吗？我是说，你真的要退出登录吗")
+                                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                            }
+                                        })
+                                .setPositiveButton("是的是的，我要走了", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        edit.putBoolean("skip",false);
+                                        edit.apply();
+                                        Toast.makeText(getApplicationContext(),"重启以退出登录",Toast.LENGTH_SHORT).show();
+                                    }
+                                }).create();
+                        alert.show();
                         break;
                     }
                     case R.id.nav_upload:{

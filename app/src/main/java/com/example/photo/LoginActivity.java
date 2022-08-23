@@ -8,11 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,16 +42,34 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isLoginSuccess=false;
     private boolean isRegisterSucceess=false;
     public static Activity mActivityInstance;
+    private CheckBox checkBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mActivityInstance=this;
-        signUp=findViewById(R.id.tv_sign_up);
-        final ImageView ivPwdSwitch=findViewById(R.id.iv_pwd_switch);
-        etPwd=findViewById(R.id.et_pwd);
         username=findViewById(R.id.et_account);
+        etPwd=findViewById(R.id.et_pwd);
+        signUp=findViewById(R.id.tv_sign_up);
+        ImageView ivPwdSwitch=findViewById(R.id.iv_pwd_switch);
+        checkBox=findViewById(R.id.cb_remember_pwd);
+        MaterialButton login=findViewById(R.id.bt_login);
+        reset=findViewById(R.id.Reset);
+        SharedPreferences preferences=getSharedPreferences("login",MODE_PRIVATE);
+        mActivityInstance=this;
+        boolean skip=preferences.getBoolean("skip",false);
+
+        if(skip){
+            username.setText(preferences.getString("username",""));
+            etPwd.setText(preferences.getString("password",""));
+            Intent intent=new Intent(LoginActivity.this,PhotoshowActivity.class);
+            intent.putExtra("username",username.getText().toString());
+            startActivity(intent);
+            finish();
+        }else{
+            username.setText(preferences.getString("username",""));
+        }
+
+
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        MaterialButton login=findViewById(R.id.bt_login);
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +134,18 @@ public class LoginActivity extends AppCompatActivity {
                         String res=response.body().string();
                         if(response.isSuccessful()&&res.equals("true")){
                             isLoginSuccess=true;
+                            SharedPreferences file=getSharedPreferences("login", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit=file.edit();
+                            edit.putString("username",user);
+                            if(checkBox.isChecked()){
+                                edit.putString("password",pwd);
+                                edit.putBoolean("skip",true);
+                                edit.apply();
+                            }else{
+                                edit.putString("password","");
+                                edit.putBoolean("skip",false);
+                                edit.apply();
+                            }
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -133,7 +166,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        reset=findViewById(R.id.Reset);
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
