@@ -27,14 +27,14 @@ public class ImageServerUtil {
         OkHttpClient client=new OkHttpClient();
         RequestBody requestBody=new FormBody.Builder()
                 .add("username",username).build();
-        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/userget").post(requestBody).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/userget").post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
     public static void getFavorite(String username,Callback callback){
         OkHttpClient client=new OkHttpClient();
         RequestBody requestBody=new FormBody.Builder()
                 .add("username",username).build();
-        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/Favorite").post(requestBody).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/Favorite").post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
 
@@ -42,7 +42,7 @@ public class ImageServerUtil {
         OkHttpClient client=new OkHttpClient();
         RequestBody requestBody=new FormBody.Builder()
                 .add("pic_url",comment.getPic_url()).build();
-        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/getComment").post(requestBody).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/getComment").post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
     public static void addComment(Comment comment, Callback callback){
@@ -52,7 +52,7 @@ public class ImageServerUtil {
                 .add("pic_url",comment.getPic_url())
                 .add("comment_text",comment.getComment_text())
                 .build();
-        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/addComment").post(requestBody).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/addComment").post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
     /*
@@ -72,7 +72,7 @@ public class ImageServerUtil {
                 .add("pic_url",imageJson.getPic_url())
                 .build();
         //添加图片信息到服务器
-        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/add").post(requestBody).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/add").post(requestBody).build();
         try {
             client.newCall(request).execute();
         } catch (IOException e) {
@@ -93,7 +93,7 @@ public class ImageServerUtil {
                 .add("username",favorite.getUsername())
                 .add("pic_url",favorite.getPic_url())
                 .build();
-        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/addFavorite").post(requestBody).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/addFavorite").post(requestBody).build();
         try {
             client.newCall(request).execute();
         } catch (IOException e) {
@@ -107,7 +107,7 @@ public class ImageServerUtil {
                 .add("username",favorite.getUsername())
                 .add("pic_url",favorite.getPic_url())
                 .build();
-        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/removeFavorite").post(requestBody).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/removeFavorite").post(requestBody).build();
         try {
             client.newCall(request).execute();
         } catch (IOException e) {
@@ -121,7 +121,7 @@ public class ImageServerUtil {
                 .add("username",favorite.getUsername())
                 .add("pic_url",favorite.getPic_url())
                 .build();
-        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/star").post(requestBody).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/star").post(requestBody).build();
         try {
             client.newCall(request).execute();
         } catch (IOException e) {
@@ -135,7 +135,7 @@ public class ImageServerUtil {
                 .add("username",favorite.getUsername())
                 .add("pic_url",favorite.getPic_url())
                 .build();
-        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/removeStar").post(requestBody).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/removeStar").post(requestBody).build();
         try {
             client.newCall(request).execute();
         } catch (IOException e) {
@@ -150,7 +150,7 @@ public class ImageServerUtil {
                 .add("username",favorite.getUsername())
                 .add("pic_url",favorite.getPic_url())
                 .build();
-        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/checkStar").post(requestBody).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/checkStar").post(requestBody).build();
         try {
             Response response=client.newCall(request).execute();
             if(response.isSuccessful()){
@@ -170,7 +170,7 @@ public class ImageServerUtil {
                 .add("username",favorite.getUsername())
                 .add("pic_url",favorite.getPic_url())
                 .build();
-        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/checkFavorite").post(requestBody).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/checkFavorite").post(requestBody).build();
         try {
             Response response=client.newCall(request).execute();
                 if(response.body().string().isEmpty()){
@@ -192,7 +192,7 @@ public class ImageServerUtil {
                 .add("username",image.getUsername())
                 .add("user_img",image.getUser_img())
                 .build();
-        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/uploadAvatar").post(requestBody).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/uploadAvatar").post(requestBody).build();
         try {
             client.newCall(request).execute();
         } catch (IOException e) {
@@ -206,7 +206,7 @@ public class ImageServerUtil {
         RequestBody requestBody=new FormBody.Builder()
                 .add("username",username)
                 .build();
-        Request request=new Request.Builder().url("http://39.108.13.67:8844/img/userimg").post(requestBody).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/userimg").post(requestBody).build();
         try {
             Response response=client.newCall(request).execute();
             if(response.isSuccessful())
