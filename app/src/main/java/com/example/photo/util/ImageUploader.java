@@ -1,10 +1,13 @@
 package com.example.photo.util;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import com.example.photo.Entity.ItemImage;
 import com.example.photo.Entity.JsonUtil.ImageJson;
 import com.example.photo.Entity.JsonUtil.ImageServerUploadBackJson;
+import com.example.photo.PhotoshowActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -50,6 +53,7 @@ public class ImageUploader {
         try {
             Response response=client.newCall(request).execute();
             if(response.isSuccessful()){
+                Toast.makeText(PhotoshowActivity.mContext,"上传成功",Toast.LENGTH_SHORT).show();
                 //post返回值
                 String res = response.body().string();
                 //Gson解析返回的json
@@ -61,9 +65,10 @@ public class ImageUploader {
                 Thread t = new Thread(() -> ImageServerUtil.addImage(json));
                 t.start();
                 while(t.isAlive());
+
                 //等待信息同步
             }else {
-                System.out.println("fail");
+                Toast.makeText(PhotoshowActivity.mContext,"上传失败",Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
             e.printStackTrace();

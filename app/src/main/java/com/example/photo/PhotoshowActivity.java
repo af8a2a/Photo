@@ -51,6 +51,15 @@ public class PhotoshowActivity extends AppCompatActivity {
     private int SELECT_TYPE=1;
     private FloatingActionButton actionButton;
     private DrawerLayout drawerLayout;
+    public static Context mContext;
+    public void useToast(String string){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+    }
     public static String getUsername() {
         return username;
     }
@@ -58,7 +67,9 @@ public class PhotoshowActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.photoshow);
+        mContext=getApplicationContext();
         drawerLayout=findViewById(R.id.drawerlayout);
         //不再返回登录界面
         //MainActivity.mActivityInstance.finish();
@@ -119,6 +130,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                                 image.setUserFavorite(Boolean.valueOf(bool));
                                 PhotoshowActivity.this.imageList.add(image);
                                 start=false;
+
                             }
                         }
                     }
@@ -242,7 +254,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                runOnUiThread(new Runnable() {
                    @Override
                    public void run() {
-                       //todo
+
                        imageAdapter.notifyDataSetChanged();
                        refreshLayout.setRefreshing(false);
                        new Thread(() -> {

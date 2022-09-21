@@ -200,6 +200,7 @@ public class ImageDetail extends AppCompatActivity  {
 
     }
     //点击进入时初始化图标
+    @Deprecated
     private void init(){
         if(favoriteState==true){
             btn_favorite.setImageResource(R.drawable.v_heart_primary_x48);
@@ -367,7 +368,6 @@ public class ImageDetail extends AppCompatActivity  {
             }
             //复制图片url至剪贴板
             case R.id.nav_btm_share:{
-                //todo
                 //粘贴板
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData mClipData = ClipData.newPlainText("Label", url);

@@ -12,6 +12,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.photo.Entity.JsonUtil.ImageJson;
@@ -102,7 +103,9 @@ public class UploadActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        Toast.makeText(getApplicationContext(),"开始上传",Toast.LENGTH_SHORT).show();
                         ImageUploader.upload(filePath,imageJson);
+
                         userImage.setUser_img(imageJson.getPic_url());
                         icon=getIntent().getIntExtra("icon",-1);
                         if(icon!=-1) {

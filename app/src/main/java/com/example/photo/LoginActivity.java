@@ -29,9 +29,6 @@ import java.io.IOException;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-//todo
-//也许应该叫LoginActivity
-//做的差不多再改罢
 
 public class LoginActivity extends AppCompatActivity {
     private Boolean bPwdSwitch=false;

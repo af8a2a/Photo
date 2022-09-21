@@ -63,6 +63,14 @@ public class CommentListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        new Thread(() -> {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            runOnUiThread(() -> refresh());
+        }).start();
     }
     private void load(){
         Comment comment=new Comment();
