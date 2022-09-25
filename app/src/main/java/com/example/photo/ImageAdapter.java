@@ -75,7 +75,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
 
                 Thread t1=new Thread(() -> {
                     boolean isStar=ImageServerUtil.checkStar(favorite);
-                    System.out.println(isStar);
+                    //System.out.println(isStar);
                     intent.putExtra("isStar",isStar);
                     //跳转
                 });
@@ -83,7 +83,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
                 Thread t2=new Thread(() -> {
                     boolean isFavorite=ImageServerUtil.checkFavorite(favorite);
                     intent.putExtra("isFavorite",isFavorite);
-                    System.out.println(isFavorite);
+                    //System.out.println(isFavorite);
                 });
                 t2.start();
                 while(t1.isAlive()||t2.isAlive()){

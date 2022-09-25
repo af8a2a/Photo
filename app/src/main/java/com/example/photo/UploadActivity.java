@@ -1,5 +1,6 @@
 package com.example.photo;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,13 +17,21 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.photo.Entity.JsonUtil.ImageJson;
+import com.example.photo.Entity.JsonUtil.ImageServerUploadBackJson;
 import com.example.photo.Entity.UserImage;
 import com.example.photo.util.ImageServerUtil;
 import com.example.photo.util.ImageUploader;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.net.URI;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
 /*
 上传图片的activity
 修改上传的头像工作不稳定
@@ -100,18 +109,45 @@ public class UploadActivity extends AppCompatActivity {
                 UserImage userImage=new UserImage();
                 userImage.setUsername(username);
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(),"开始上传",Toast.LENGTH_SHORT).show();
-                        ImageUploader.upload(filePath,imageJson);
-
-                        userImage.setUser_img(imageJson.getPic_url());
-                        icon=getIntent().getIntExtra("icon",-1);
-                        if(icon!=-1) {
-                            ImageServerUtil.UpdateUserAvatar(userImage);
+                new Thread(() -> {
+                    runOnUiThread(() -> Toast.makeText(getApplicationContext(),"开始上传",Toast.LENGTH_SHORT).show());
+                    //ImageUploader.upload(filePath,imageJson);
+                    ImageUploader.async_upload(filePath, new Callback() {
+                        @Override
+                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                            runOnUiThread(() -> Toast.makeText(PhotoshowActivity.mContext,"上传失败",Toast.LENGTH_SHORT).show());
                         }
+                        @Override
+                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                            if(response.isSuccessful()){
+                                //System.out.println("上传成功");
+                                runOnUiThread(() -> Toast.makeText(PhotoshowActivity.mContext,"上传成功",Toast.LENGTH_SHORT).show());
+                                String res = response.body().string();
+                                //Gson解析返回的json
+                                Gson gson=new Gson();
+                                ImageServerUploadBackJson imageList = gson.fromJson(res,ImageServerUploadBackJson.class);
+                                //System.out.println("success");
+                                imageJson.setPic_url(imageList.getData().getLinks().getUrl());
+                                //开启线程将上传图床的图片返回的url更新至数据库
+                                Thread t = new Thread(() -> ImageServerUtil.addImage(imageJson));
+                                t.start();
+                                while(t.isAlive());
+                                userImage.setUser_img(imageJson.getPic_url());
+                                icon=getIntent().getIntExtra("icon",-1);
+                                if(icon!=-1) {
+                                    ImageServerUtil.UpdateUserAvatar(userImage);
+                                }
+                            }
+                        }
+                    });
+                    /*
+                    userImage.setUser_img(imageJson.getPic_url());
+                    icon=getIntent().getIntExtra("icon",-1);
+                    if(icon!=-1) {
+                        ImageServerUtil.UpdateUserAvatar(userImage);
                     }
+
+                     */
                 }).start();
                 /*
                 userImage.setUser_img(imageJson.getPic_url());

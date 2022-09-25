@@ -52,14 +52,7 @@ public class PhotoshowActivity extends AppCompatActivity {
     private FloatingActionButton actionButton;
     private DrawerLayout drawerLayout;
     public static Context mContext;
-    public void useToast(String string){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
 
-            }
-        });
-    }
     public static String getUsername() {
         return username;
     }
@@ -117,6 +110,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                     if (response.isSuccessful()) {
                         String res = response.body().string();
+                        //解析json
                         List<ImageJson> imageList = gson.fromJson(res, new TypeToken<List<ImageJson>>() {
                         }.getType());
                         for (int i = 0; i < imageList.size(); i++) {
@@ -171,14 +165,11 @@ public class PhotoshowActivity extends AppCompatActivity {
         navigationView=findViewById(R.id.nav_view);
         View headView=navigationView.getHeaderView(0);
         icon = headView.findViewById(R.id.nav_icon_image);
-        icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(),UploadActivity.class);
-                intent.putExtra("username",username);
-                intent.putExtra("icon",1);
-                startActivity(intent);
-            }
+        icon.setOnClickListener(view -> {
+            Intent intent=new Intent(getApplicationContext(),UploadActivity.class);
+            intent.putExtra("username",username);
+            intent.putExtra("icon",1);
+            startActivity(intent);
         });
 
         new Thread(() -> {
@@ -241,29 +232,22 @@ public class PhotoshowActivity extends AppCompatActivity {
     }
 
     private void refreshList(){
-       new Thread(new Runnable() {
-           @Override
-           public void run() {
-               try {
-                   imageList.clear();
-                   loadData_server();
-                   Thread.sleep(2000);
+       new Thread(() -> {
+           try {
+               imageList.clear();
+               loadData_server();
+               Thread.sleep(2000);
 
-               }catch(InterruptedException e){
-               }
-               runOnUiThread(new Runnable() {
-                   @Override
-                   public void run() {
-
-                       imageAdapter.notifyDataSetChanged();
-                       refreshLayout.setRefreshing(false);
-                       new Thread(() -> {
-                           String pic=ImageServerUtil.getUserAvatar(username);
-                           runOnUiThread(() -> Glide.with(getApplicationContext()).load(pic).placeholder(R.drawable.v_history_black_x24).into(icon));
-                       }).start();
-                   }
-               });
+           }catch(InterruptedException e){
            }
+           runOnUiThread(() -> {
+               imageAdapter.notifyDataSetChanged();
+               refreshLayout.setRefreshing(false);
+               new Thread(() -> {
+                   String pic=ImageServerUtil.getUserAvatar(username);
+                   runOnUiThread(() -> Glide.with(getApplicationContext()).load(pic).placeholder(R.drawable.v_history_black_x24).into(icon));
+               }).start();
+           });
        }).start();
 
     }

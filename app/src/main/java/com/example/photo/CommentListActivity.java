@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.photo.Entity.Comment;
 import com.example.photo.Entity.JsonUtil.ImageJson;
@@ -40,7 +41,16 @@ public class CommentListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_list);
         url=getIntent().getStringExtra("url");
-        load();
+        Thread t=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(),"加载中",Toast.LENGTH_SHORT).show());
+                load();
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(),"加载完成",Toast.LENGTH_SHORT).show());
+            }
+        });
+        t.start();
+        while(t.isAlive());
         //while(!start);
         recyclerView=findViewById(R.id.comment_list);
         refreshLayout=findViewById(R.id.comment_refresh);
@@ -48,20 +58,12 @@ public class CommentListActivity extends AppCompatActivity {
         adapter=new CommentAdapter(R.layout.comment_item,commentList,this);
         recyclerView.setLayoutManager(llm);
         recyclerView.setAdapter(adapter);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
+        refreshLayout.setOnRefreshListener(() -> refresh());
         floatingActionButton=findViewById(R.id.comment_addButton);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(),addComment.class);
-                intent.putExtra("url",url);
-                startActivity(intent);
-            }
+        floatingActionButton.setOnClickListener(view -> {
+            Intent intent=new Intent(getApplicationContext(),addComment.class);
+            intent.putExtra("url",url);
+            startActivity(intent);
         });
         new Thread(() -> {
             try {
@@ -80,7 +82,6 @@ public class CommentListActivity extends AppCompatActivity {
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 e.printStackTrace();
             }
-
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if(response.isSuccessful()){
@@ -96,23 +97,19 @@ public class CommentListActivity extends AppCompatActivity {
     }
     private void refresh(){
         commentList.clear();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                load();
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.notifyDataSetChanged();
-                        refreshLayout.setRefreshing(false);
-                    }
-                });
+        new Thread(() -> {
+            runOnUiThread(() -> Toast.makeText(getApplicationContext(),"加载中",Toast.LENGTH_SHORT).show());
+            load();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            runOnUiThread(() -> {
+                adapter.notifyDataSetChanged();
+                refreshLayout.setRefreshing(false);
+                Toast.makeText(getApplicationContext(),"加载完成",Toast.LENGTH_SHORT).show();
+            });
         }).start();
     }
 

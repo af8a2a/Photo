@@ -22,6 +22,9 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 //重置密码
+/*
+登录界面点击重置密码进入
+ */
 public class ResetpasswordActivity extends AppCompatActivity {
     private ImageView passwordShow;
     private Boolean bPwdSwitch=false;

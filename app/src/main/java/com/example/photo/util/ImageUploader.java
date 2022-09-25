@@ -27,10 +27,29 @@ import okhttp3.Response;
 //上传图片的工具类
 public class ImageUploader {
     //上传文件
-    public static void upload(String path,ImageJson json){
-        //todo
+    //异步版本
+    public static void async_upload(String path,Callback callback){
         File file = new File(path);
+        OkHttpClient client=new OkHttpClient();
 
+        RequestBody body = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart(
+                        "file",
+                        file.getName(),
+                        MultipartBody.create(MediaType.parse("multipart/form-data"), file)
+                ).build();
+        Request request=new Request.Builder().url("https://img.ski/api/v1/upload")
+                .addHeader("Authorization","Bearer 1|nCKcl9R4t56sZtKPH1q9vGjRMdb9d0xSRVbzJ7N2")
+                .addHeader("Accept","application/json")
+                .addHeader("Content-Type","multipart/form-data").post(body)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+    //已经弃用的实现
+    @Deprecated
+    public static void upload(String path,ImageJson json){
+        File file = new File(path);
         OkHttpClient client=new OkHttpClient();
 
         RequestBody body = new MultipartBody.Builder()
@@ -53,7 +72,6 @@ public class ImageUploader {
         try {
             Response response=client.newCall(request).execute();
             if(response.isSuccessful()){
-                Toast.makeText(PhotoshowActivity.mContext,"上传成功",Toast.LENGTH_SHORT).show();
                 //post返回值
                 String res = response.body().string();
                 //Gson解析返回的json
@@ -68,7 +86,7 @@ public class ImageUploader {
 
                 //等待信息同步
             }else {
-                Toast.makeText(PhotoshowActivity.mContext,"上传失败",Toast.LENGTH_SHORT).show();
+
             }
         } catch (IOException e) {
             e.printStackTrace();
