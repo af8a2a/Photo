@@ -39,6 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/preview_name"
+            android:layout_marginLeft="-1dp"
+            android:layout_marginTop="0dp"
             android:layout_toRightOf="@+id/preview_image"
             android:paddingStart="8dp"
             android:paddingTop="8dp" />

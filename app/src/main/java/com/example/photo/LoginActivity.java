@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         signUp.setOnClickListener(new View.OnClickListener() {
+            //注册
             @Override
             public void onClick(View view) {
                 String pwd=etPwd.getText().toString();
@@ -77,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Call call, @NonNull IOException e) {
                         e.printStackTrace();
                     }
-
                     @Override
                     public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                         String res=response.body().string();
@@ -88,9 +88,14 @@ public class LoginActivity extends AppCompatActivity {
                                 public void run() {
                                     if(isRegisterSucceess)
                                     Toast.makeText(LoginActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
-                                    else
-                                        Toast.makeText(LoginActivity.this,"已存在该用户名！",Toast.LENGTH_SHORT).show();
                                     isRegisterSucceess=false;
+                                }
+                            });
+                        }else{
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(LoginActivity.this,"已存在该用户名",Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -99,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         ivPwdSwitch.setOnClickListener(new View.OnClickListener() {
+            //密码可见
             @Override
             public void onClick(View view) {
                 bPwdSwitch=!bPwdSwitch;
@@ -115,9 +121,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
         login.setOnClickListener(new View.OnClickListener() {
+            //登录
             @Override
             public void onClick(View view) {
-
                 String pwd=etPwd.getText().toString();
                 String user=username.getText().toString();
                 DbLogin.login(user, pwd, new Callback() {
@@ -125,15 +131,17 @@ public class LoginActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Call call, @NonNull IOException e) {
                         e.printStackTrace();
                     }
-
                     @Override
                     public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                         String res=response.body().string();
+                        //服务器响应,且与数据库信息对比成功
                         if(response.isSuccessful()&&res.equals("true")){
                             isLoginSuccess=true;
+                            //记录登录信息
                             SharedPreferences file=getSharedPreferences("login", Context.MODE_PRIVATE);
                             SharedPreferences.Editor edit=file.edit();
                             edit.putString("username",user);
+                            //检查是否记住密码
                             if(checkBox.isChecked()){
                                 edit.putString("password",pwd);
                                 edit.putBoolean("skip",true);
@@ -144,17 +152,24 @@ public class LoginActivity extends AppCompatActivity {
                                 edit.apply();
                             }
                             runOnUiThread(new Runnable() {
+                                //ui跳转
                                 @Override
                                 public void run() {
                                     if(isLoginSuccess){
-                                        if(isLoginSuccess){
-                                            Intent intent=new Intent(LoginActivity.this,PhotoshowActivity.class);
-                                            intent.putExtra("username",username.getText().toString());
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                        isLoginSuccess=false;
+
+                                        Intent intent=new Intent(LoginActivity.this,PhotoshowActivity.class);
+                                        intent.putExtra("username",username.getText().toString());
+                                        startActivity(intent);
+                                        finish();//正常app逻辑退出不会回到登录界面
+                                        isLoginSuccess=!isLoginSuccess;
                                     }
+                                }
+                            });
+                        }else{
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(),"登录失败",Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }

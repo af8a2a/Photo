@@ -23,11 +23,19 @@ import okhttp3.Response;
 //异步请求
 public class ImageServerUtil {
     //获取服务器的图片列表信息
+    //默认按照时间顺序，以最新图片最先展示
     public static void getImage(String username,Callback callback){
         OkHttpClient client=new OkHttpClient();
         RequestBody requestBody=new FormBody.Builder()
                 .add("username",username).build();
-        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/userget").post(requestBody).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/userget/default").post(requestBody).build();
+        client.newCall(request).enqueue(callback);
+    }
+    public static void getImage_star(String username,Callback callback){
+        OkHttpClient client=new OkHttpClient();
+        RequestBody requestBody=new FormBody.Builder()
+                .add("username",username).build();
+        Request request=new Request.Builder().url("http://43.139.44.74:8844/img/userget/star").post(requestBody).build();
         client.newCall(request).enqueue(callback);
     }
     public static void getFavorite(String username,Callback callback){
@@ -80,7 +88,7 @@ public class ImageServerUtil {
         }
     }
 // 切记
-//为了减少柱页面的代码，以下方法采用开启新线程同步请求
+//为了减少页面的代码，以下方法采用开启新线程同步请求
 // 以下方法需要开启一个新的线程来进行此操作
 
 

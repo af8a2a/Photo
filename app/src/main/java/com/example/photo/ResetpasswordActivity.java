@@ -89,6 +89,13 @@ public class ResetpasswordActivity extends AppCompatActivity {
                                 });
                         }
                     });
+                }else{
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ResetpasswordActivity.this,"两次输入的密码不一致",Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });

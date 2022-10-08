@@ -49,6 +49,13 @@ public class PhotoshowActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ShapeableImageView icon;
     private int SELECT_TYPE=1;
+    //1->全部内容
+    //2->仅收藏内容
+    private boolean orderState=false;
+    /*
+    true---->按上传时间降序
+    false--->按点赞数降序
+     */
     private FloatingActionButton actionButton;
     private DrawerLayout drawerLayout;
     public static Context mContext;
@@ -56,6 +63,7 @@ public class PhotoshowActivity extends AppCompatActivity {
     public static String getUsername() {
         return username;
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +79,6 @@ public class PhotoshowActivity extends AppCompatActivity {
         username=getIntent().getStringExtra("username");
         //initData();
         //服务器加载数据
-        //loadData_server();
-        //while(start);
-        //loadData_server();
         recyclerView = findViewById(R.id.photo_list);
         imageAdapter = new ImageAdapter(PhotoshowActivity.this, R.layout.carditem, imageList);
         LinearLayoutManager llm=new LinearLayoutManager(this);
@@ -86,6 +91,7 @@ public class PhotoshowActivity extends AppCompatActivity {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                //下拉刷新逻辑
                 refreshList();
                 initNav();
             }
@@ -93,43 +99,76 @@ public class PhotoshowActivity extends AppCompatActivity {
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //呼出侧边栏
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
+        //初始化完毕，加载图片信息
         refreshList();
     }
+
     private void loadData_server(){
         Gson gson=new Gson();
         if(SELECT_TYPE==1) {
-            ImageServerUtil.getImage(username,new Callback() {
-                @Override
-                public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    e.printStackTrace();
-                }
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    if (response.isSuccessful()) {
-                        String res = response.body().string();
-                        //解析json
-                        List<ImageJson> imageList = gson.fromJson(res, new TypeToken<List<ImageJson>>() {
-                        }.getType());
-                        for (int i = 0; i < imageList.size(); i++) {
-                            ItemImage image = new ItemImage();
-                            if (!PhotoshowActivity.this.imageList.contains(imageList.get(i).getPid())) {
-                                image.setUrl(imageList.get(i).getPic_url());
-                                image.setImageName(imageList.get(i).getTitle());
-                                image.setAuthor(imageList.get(i).getAuthor());
-                                image.setStar(imageList.get(i).getStar());
-                                String bool=String.valueOf(imageList.get(i).getFavorite());
-                                image.setUserFavorite(Boolean.valueOf(bool));
-                                PhotoshowActivity.this.imageList.add(image);
-                                start=false;
-
+            if(orderState==true) {
+                ImageServerUtil.getImage(username, new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        e.printStackTrace();
+                    }
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                        if (response.isSuccessful()) {
+                            String res = response.body().string();
+                            //解析json
+                            List<ImageJson> imageList = gson.fromJson(res, new TypeToken<List<ImageJson>>() {
+                            }.getType());
+                            for (int i = 0; i < imageList.size(); i++) {
+                                ItemImage image = new ItemImage();
+                                if (!PhotoshowActivity.this.imageList.contains(imageList.get(i).getPid())) {
+                                    image.setUrl(imageList.get(i).getPic_url());
+                                    image.setImageName(imageList.get(i).getTitle());
+                                    image.setAuthor(imageList.get(i).getAuthor());
+                                    image.setStar(imageList.get(i).getStar());
+                                    String bool = String.valueOf(imageList.get(i).getFavorite());
+                                    image.setUserFavorite(Boolean.valueOf(bool));
+                                    PhotoshowActivity.this.imageList.add(image);
+                                    start = false;
+                                }
                             }
                         }
                     }
-                }
-            });
+                });
+            }else{
+                ImageServerUtil.getImage_star(username, new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        e.printStackTrace();
+                    }
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                        if (response.isSuccessful()) {
+                            String res = response.body().string();
+                            //解析json
+                            List<ImageJson> imageList = gson.fromJson(res, new TypeToken<List<ImageJson>>() {
+                            }.getType());
+                            for (int i = 0; i < imageList.size(); i++) {
+                                ItemImage image = new ItemImage();
+                                if (!PhotoshowActivity.this.imageList.contains(imageList.get(i).getPid())) {
+                                    image.setUrl(imageList.get(i).getPic_url());
+                                    image.setImageName(imageList.get(i).getTitle());
+                                    image.setAuthor(imageList.get(i).getAuthor());
+                                    image.setStar(imageList.get(i).getStar());
+                                    String bool = String.valueOf(imageList.get(i).getFavorite());
+                                    image.setUserFavorite(Boolean.valueOf(bool));
+                                    PhotoshowActivity.this.imageList.add(image);
+                                    start = false;
+                                }
+                            }
+                        }
+                    }
+                });
+            }
         }
         else{
             ImageServerUtil.getFavorite(username, new Callback() {
@@ -192,6 +231,19 @@ public class PhotoshowActivity extends AppCompatActivity {
                         refreshList();
                         break;
                     }
+                    case R.id.nav_order:{
+                        orderState=!orderState;
+                        if(orderState==true){
+                            item.setIcon(R.drawable.v_star_x24);
+                            item.setTitle("点赞顺序");
+                            refreshList();
+                        }else{
+                            item.setIcon(R.drawable.v_history_black_x24);
+                            item.setTitle("时间顺序");
+                            refreshList();
+                        }
+                        break;
+                    }
                     case R.id.nav_exit:{
                         SharedPreferences preferences=getSharedPreferences("login",MODE_PRIVATE);
                         SharedPreferences.Editor edit=preferences.edit();
@@ -202,12 +254,14 @@ public class PhotoshowActivity extends AppCompatActivity {
                                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
-
+                                                    //nothing to do
+                                                    //不做任何操作
                                             }
                                         })
                                 .setPositiveButton("是的是的，我要走了", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
+                                        //SharedPreferences的skip字段写入false,下次启动app时重新登录
                                         edit.putBoolean("skip",false);
                                         edit.apply();
                                         Toast.makeText(getApplicationContext(),"重启以退出登录",Toast.LENGTH_SHORT).show();
@@ -217,6 +271,7 @@ public class PhotoshowActivity extends AppCompatActivity {
                         break;
                     }
                     case R.id.nav_upload:{
+
                         Intent intent=new Intent(getApplicationContext(),UploadActivity.class);
                         intent.putExtra("username",username);
                         startActivity(intent);
@@ -232,8 +287,10 @@ public class PhotoshowActivity extends AppCompatActivity {
     }
 
     private void refreshList(){
+        //刷新
        new Thread(() -> {
            try {
+               //图片列表清空后从服务器重新读取
                imageList.clear();
                loadData_server();
                Thread.sleep(2000);
@@ -241,6 +298,7 @@ public class PhotoshowActivity extends AppCompatActivity {
            }catch(InterruptedException e){
            }
            runOnUiThread(() -> {
+               //响应数据改变
                imageAdapter.notifyDataSetChanged();
                refreshLayout.setRefreshing(false);
                new Thread(() -> {
@@ -251,4 +309,6 @@ public class PhotoshowActivity extends AppCompatActivity {
        }).start();
 
     }
+
 }
+

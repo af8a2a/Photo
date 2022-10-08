@@ -28,6 +28,11 @@ import okhttp3.Response;
 public class ImageUploader {
     //上传文件
     //异步版本
+    //参数解释
+    //https://img.ski/api/v1/upload 是图床服务器的上传API
+    //Authorization                 用户的上传Token      ----因网络延迟,性能要求等种种原因本地保存Token
+    //Accept                        获取类型
+    //Content-Type                  文件的类型和网页的编码
     public static void async_upload(String path,Callback callback){
         File file = new File(path);
         OkHttpClient client=new OkHttpClient();
@@ -59,11 +64,7 @@ public class ImageUploader {
                         file.getName(),
                         MultipartBody.create(MediaType.parse("multipart/form-data"), file)
                 ).build();
-        //参数解释
-        //https://img.ski/api/v1/upload 是图床服务器的上传API
-        //Authorization                 用户的上传Token
-        //Accept                        获取类型
-        //Content-Type                  文件的类型和网页的编码
+
         Request request=new Request.Builder().url("https://img.ski/api/v1/upload")
                 .addHeader("Authorization","Bearer 1|nCKcl9R4t56sZtKPH1q9vGjRMdb9d0xSRVbzJ7N2")
                 .addHeader("Accept","application/json")

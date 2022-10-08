@@ -32,6 +32,7 @@
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/v_star_half_x16.xml" value="0.1655" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/v_star_outline_x16.xml" value="0.22" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/v_star_x16.xml" value="0.167" />
+        <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/v_star_x24.xml" value="0.167" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/v_star_x48.xml" value="0.1325" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/drawable/v_thumb_up_primary_x48.xml" value="0.179" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/activity_add_comment.xml" value="0.25364583333333335" />
@@ -41,7 +42,7 @@
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/activity_register.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/activity_upload.xml" value="0.1" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/activity_write_comment.xml" value="0.1" />
-        <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/carditem.xml" value="0.536" />
+        <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/carditem.xml" value="0.264" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/comment_item.xml" value="0.1" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/fragment_dashboard.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/fragment_home.xml" value="0.25364583333333335" />
@@ -50,7 +51,7 @@
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/item.xml" value="0.264" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/list_item.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/nav_header.xml" value="0.4" />
-        <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/photoshow.xml" value="0.264" />
+        <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/photoshow.xml" value="0.152" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/layout/resetpassword.xml" value="0.176" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/menu/nav_bottom_menu.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/ame/Photo2/app/src/main/res/menu/nav_menu.xml" value="0.264" />

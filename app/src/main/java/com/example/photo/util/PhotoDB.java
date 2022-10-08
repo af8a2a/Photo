@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 //暂时使用，预计将改为服务器登录......不远的将来就会弃用
+@Deprecated
 public class PhotoDB extends SQLiteOpenHelper {
     public static final String CREATE_USER="create table USER("
             +"id integer primary key autoincrement,"

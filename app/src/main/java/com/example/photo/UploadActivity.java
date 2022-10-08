@@ -98,7 +98,6 @@ public class UploadActivity extends AppCompatActivity {
                 startActivityForResult(intent, 3);
             }
         });
-
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
